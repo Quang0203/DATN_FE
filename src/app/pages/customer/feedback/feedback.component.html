@@ -1,0 +1,15 @@
+<app-navbar-owner [name]="booking?.user?.name" [role]="'CUSTOMER'"></app-navbar-owner>
+<div class="feedback-page">
+  <h2>Đánh giá sau thuê</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label>Rating:
+      <select [(ngModel)]="rate" name="rate">
+        <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{r}}</option>
+      </select>
+    </label>
+    <label>Comment:
+      <textarea [(ngModel)]="comment" name="content"></textarea>
+    </label>
+    <button type="submit">Submit</button>
+  </form>
+</div>

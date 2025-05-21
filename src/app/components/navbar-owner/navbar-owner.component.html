@@ -1,0 +1,34 @@
+<header class="header-container">
+  <div class="icon" (click)="handleHome()">
+    <img src="/icon/vehicle.png" alt="Car Icon" class="car-icon" />
+    <h1>Thuê xe ngay hôm nay!</h1>
+  </div>
+
+  <nav class="menu">
+    <ul>
+      <li><a (click)="goToPage('/aboutus')">Về chúng tôi</a></li>
+      <li class="dropdown">
+        <div class="dr-ic" (click)="toggleDropdown()">
+          <img src="/icon/user-icon.png" alt="User Icon" class="us-icon" />
+          <span class="dropbtn">Xin chào, {{ name }}</span>
+          <img src="/icon/down-arrow.png" alt="Drop-Icon" class="drop-icon" />
+        </div>
+        <div class="dropdown-content" [class.show]="isDropdownOpen">
+          <a (click)="goToPage('/profile')">Hồ sơ</a>
+          <a *ngIf="role === 'CAROWNER'" (click)="goToPage('/car-owner/mycar')">Xe của tôi</a>
+          <a *ngIf="role === 'CAROWNER'" (click)="goToPage('/car-owner/mybooking')">Danh sách đặt xe</a>
+          <a *ngIf="role === 'CUSTOMER'" (click)="goToPage('/view-booking-list')">Danh sách đặt xe</a>
+          <a (click)="goToPage('/view-wallet')">Ví tiền</a>
+          <a *ngIf="role === 'CAROWNER'" (click)="goToPage('/view-feedback-report')">Đánh giá</a>
+          <a (click)="confirmLogout()">Đăng xuất</a>
+        </div>
+      </li>
+    </ul>
+    <!-- Hamburger menu cho mobile -->
+    <div class="hamburger" (click)="toggleMobileMenu()" *ngIf="isMobile">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+</header>

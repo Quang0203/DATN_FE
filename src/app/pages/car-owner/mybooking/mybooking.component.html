@@ -1,0 +1,12 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<main class="container d-flex w-100">
+  <div class="row">
+    <app-booking
+      *ngFor="let b of bookings"
+      [booking]="b">
+    </app-booking>
+  </div>
+</main>
+
+<app-footer></app-footer>

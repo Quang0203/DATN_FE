@@ -1,0 +1,9 @@
+<div id="find-us" class="find-us">
+    <h2>Bạn có thể thấy chúng tôi ở đâu</h2>
+    <div *ngFor="let item of carData" class="find-item"
+         [style.backgroundImage]="'url(' + item.image + ')'">
+      <h3>{{ item.address }}</h3>
+      <h3>{{ item.car_count }} chiếc xe</h3>
+    </div>
+  </div>
+  

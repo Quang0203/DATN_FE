@@ -1,0 +1,82 @@
+<!-- <app-navbar></app-navbar>
+
+<div class="container d-flex flex-column align-items-center justify-content-center" [style.height.%]="50">
+  <form *ngIf="!isRegister" (ngSubmit)="handleSubmit()" class="login w-50 border p-4">
+    <h2>Đăng nhập</h2>
+    <div class="mb-3">
+      <label>Email:</label>
+      <input type="text" class="form-control" [(ngModel)]="email" name="email" required>
+    </div>
+    <div class="mb-3">
+      <label>Mật khẩu:</label>
+      <input type="password" class="form-control" [(ngModel)]="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100 mb-2">Đăng nhập</button>
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-success" (click)="goForgetPassword()">Quên mật khẩu</button>
+      <button type="button" class="btn btn-secondary" (click)="goToRegister()">Đăng ký</button>
+      <button type="button" class="btn btn-dark" (click)="goBack()">Quay lại</button>
+    </div>
+  </form>
+</div>
+<div class="text-center mt-3">
+  <small>{{ message }}</small>
+</div> -->
+
+<app-navbar></app-navbar>
+
+<div class="form-container">
+  <div class="card p-4">
+    <h2 class="mb-4 text-center">Đăng nhập</h2>
+    <form (ngSubmit)="handleSubmit()" #f="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input
+          type="text"
+          name="email"
+          class="form-control"
+          [(ngModel)]="email"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+
+      <button class="btn btn-primary w-100 mb-2" type="submit">
+        Đăng nhập
+      </button>
+
+      <div class="d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-link p-0"
+          (click)="goToRegister()"
+        >
+          Chưa có tài khoản?
+        </button>
+        <button
+          type="button"
+          class="btn btn-link p-0"
+          (click)="goForgetPassword()"
+        >
+          Quên mật khẩu
+        </button>
+      </div>
+    </form>
+
+    <p
+      class="text-center mt-3 text-danger"
+      *ngIf="message"
+    >
+      {{ message }}
+    </p>
+  </div>
+</div>

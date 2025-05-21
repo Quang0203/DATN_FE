@@ -1,0 +1,108 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="container" *ngIf="!loading">
+  <div *ngIf="carDetails; else noData">
+    <div class="row">
+      <div class="col-4">
+        <img [src]="carDetails.car.images" alt="" style="width: 100%" />
+      </div>
+      <div class="col-4">
+        <h1 class="text-danger">
+          {{ carDetails.car.name }} ({{ carDetails.car.brand }})
+        </h1>
+        <p>
+          Đánh giá:
+          <span class="star-rating">
+  <ng-container *ngFor="let star of [0,1,2,3,4]">
+    <span class="star-container">
+      <i class="far fa-star"></i> <!-- Sao trống (xám) -->
+      <span class="filled-overlay" [style.width]="getFilledWidth(star, averageRating || 0)">
+        <i class="fas fa-star"></i> <!-- Sao được tô (vàng) -->
+      </span>
+    </span>
+  </ng-container>
+</span>
+          ({{ averageRating ? averageRating.toFixed(1) : "Chưa có đánh giá" }})
+        </p>
+        <p>Giá: {{ carDetails.car.baseprice }}/ngày</p>
+        <p>Địa điểm: {{ carDetails.car.address }}</p>
+        <p>
+          Trạng thái:
+          {{ statusMap[carDetails.car.status] || carDetails.car.status }}
+        </p>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button
+        (click)="setTab('basic')"
+        [ngClass]="{ active: activeTab === 'basic' }"
+      >
+        Thông tin cơ bản
+      </button>
+      <button
+        (click)="setTab('details')"
+        [ngClass]="{ active: activeTab === 'details' }"
+      >
+        Tính năng bổ sung
+      </button>
+      <button
+        (click)="setTab('terms')"
+        [ngClass]="{ active: activeTab === 'terms' }"
+      >
+        Điều khoản sử dụng
+      </button>
+    </div>
+
+    <div class="tab-content">
+      <div class="tab" *ngIf="activeTab === 'basic'">
+        <h2>Thông tin cơ bản</h2>
+        <p>Mẫu xe: {{ carDetails.car.model }}</p>
+        <p>Màu sắc: {{ carDetails.car.color }}</p>
+        <p>Số ghế: {{ carDetails.car.numberofseats }}</p>
+        <p>Năm sản xuất: {{ carDetails.car.productionyears }}</p>
+        <p>Loại hộp số: {{ carDetails.car.tranmissiontype }}</p>
+        <p>Loại nhiên liệu: {{ carDetails.car.fueltype }}</p>
+        <p>
+          Trạng thái:
+          {{ statusMap[carDetails.car.status] || carDetails.car.status }}
+        </p>
+        <p>ID chủ xe: {{ carDetails.car.idcarowner }}</p>
+      </div>
+
+      <div class="tab" *ngIf="activeTab === 'details'">
+        <h2>Tính năng bổ sung</h2>
+        <p>Số km đã đi: {{ carDetails.car.mileage }}</p>
+        <p>Mức tiêu thụ nhiên liệu: {{ carDetails.car.fuelconsumption }}</p>
+        <p>Địa chỉ: {{ carDetails.car.address }}</p>
+        <p>Mô tả: {{ carDetails.car.descripton }}</p>
+        <ul>
+          <li *ngFor="let func of additionalFunctions">
+            <input type="checkbox" [checked]="true" disabled />
+            {{ func }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="tab" *ngIf="activeTab === 'terms'">
+        <h2>Điều khoản sử dụng</h2>
+        <p>Giá cơ bản: {{ carDetails.car.baseprice }}</p>
+        <p>Đặt cọc: {{ carDetails.car.deposite }}</p>
+        <ul>
+          <li *ngFor="let term of termsOfUse">
+            <input type="checkbox" [checked]="true" disabled />
+            {{ term }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="btn-book" (click)="handleBook()">Thuê ngay</button>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>Không tìm thấy thông tin xe.</p>
+</ng-template>
+
+<app-footer></app-footer>

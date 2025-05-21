@@ -1,0 +1,150 @@
+<app-navbar></app-navbar>
+
+<div class="form-container">
+  <div class="card p-4">
+    <h2 class="mb-4 text-center">Đăng ký</h2>
+    <form (ngSubmit)="handleRegister()" #f="ngForm">
+      <!-- Sắp xếp các trường thành 2 cột -->
+      <div class="row g-3">
+        <!-- Hàng 1: Họ & tên và Ngày sinh -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Họ & tên</label>
+            <input
+              class="form-control"
+              type="text"
+              name="name"
+              [(ngModel)]="registerData.name"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Ngày sinh</label>
+            <input
+              class="form-control"
+              type="date"
+              name="dateofbirth"
+              [(ngModel)]="registerData.dateofbirth"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Hàng 2: CMND/CCCD và Email -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">CMND/CCCD</label>
+            <input
+              class="form-control"
+              type="text"
+              name="nationalidno"
+              [(ngModel)]="registerData.nationalidno"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input
+              class="form-control"
+              type="email"
+              name="email"
+              [(ngModel)]="registerData.email"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Hàng 3: Số điện thoại và Địa chỉ -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Số điện thoại</label>
+            <input
+              class="form-control"
+              type="text"
+              name="phoneno"
+              [(ngModel)]="registerData.phoneno"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Địa chỉ</label>
+            <input
+              class="form-control"
+              type="text"
+              name="address"
+              [(ngModel)]="registerData.address"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Hàng 4: Bằng lái xe và Mật khẩu -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Bằng lái xe</label>
+            <input
+              class="form-control"
+              type="text"
+              name="drivinglicense"
+              [(ngModel)]="registerData.drivinglicense"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Mật khẩu</label>
+            <input
+              class="form-control"
+              type="password"
+              name="password"
+              [(ngModel)]="registerData.password"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Phần chọn vai trò -->
+      <div class="mb-3">
+        <label class="form-label">Vai trò</label>
+        <select
+          class="form-select"
+          name="role"
+          [(ngModel)]="registerData.role"
+        >
+          <option value="CUSTOMER">Khách hàng</option>
+          <option value="CAROWNER">Chủ xe</option>
+        </select>
+      </div>
+
+      <button
+        class="btn btn-primary w-100 mb-2"
+        [disabled]="f.invalid"
+        type="submit"
+      >
+        Đăng ký
+      </button>
+      <button
+        class="btn btn-link w-100"
+        type="button"
+        (click)="goToLogin()"
+      >
+        Đã có tài khoản? Đăng nhập
+      </button>
+    </form>
+
+    <p
+      class="text-center mt-3 text-success"
+      *ngIf="message"
+    >
+      {{ message }}
+    </p>
+  </div>
+</div>

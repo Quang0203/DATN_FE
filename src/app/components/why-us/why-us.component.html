@@ -1,0 +1,53 @@
+<!-- <div
+  id="why-us"
+  style="padding: 20px 50px 50px 20px; width: 100%; height: 514px"
+>
+  <h2 style="width: 100%; height: 25px">Why us?</h2>
+  <div *ngFor="let section of sections; let i = index">
+    <div style="margin: 20px 90px; width: 220px; height: 390px; float: left">
+      <div
+        style="
+          background: white;
+          position: relative;
+          border: solid black;
+          border-radius: 50px;
+          width: 70px;
+          height: 70px;
+          left: 70px;
+          top: 35px;
+        "
+      >
+        <i
+          [class]="'fas ' + section.icon"
+          style="margin: 2px 0px 0px 14px; font-size: 60px"
+        ></i>
+      </div>
+      <div
+        style="
+          padding: 35px 0px 0px 20px;
+          border: solid black;
+          width: 220px;
+          height: 320px;
+        "
+      >
+        <h3>{{ section.title }}</h3>
+        <p>{{ section.content }}</p>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<section id="why-us" class="why-us">
+  <h2 class="why-us__title">Tại sao lại là chúng tôi</h2>
+  <div class="why-us__list">
+    <div class="why-us__card" *ngFor="let section of sections">
+      <div class="why-us__icon">
+        <i [class]="'fas ' + section.icon"></i>
+      </div>
+      <div class="why-us__content">
+        <h3 class="why-us__card-title">{{ section.title }}</h3>
+        <p class="why-us__card-text">{{ section.content }}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+/* Container tổng cho mỗi card */
+.car-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 2rem; /* Khoảng cách giữa các card */
+  background: #fff; /* Nền trắng cho nổi bật */
+  max-width: 600px; /* Giới hạn chiều rộng tối đa */
+  width: 100%; /* Chiếm hết cột bootstrap */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Container cho ảnh */
+.car-image-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* Ẩn tràn */
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+/* Ảnh tự co giãn theo container, giữ tỉ lệ */
+.car-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Giữ nguyên tỉ lệ, không cắt */
+  max-height: 300px; /* Giới hạn chiều cao nếu cần */
+}
+
+/* Phần thông tin chi tiết */
+.car-details {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tiêu đề name */
+.car-details h5 {
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+
+/* Các đoạn text */
+.car-details p {
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+/* Block Rating */
+.rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.rating span {
+  margin-left: 8px;
+  color: #f4c150; /* Vàng sao */
+}
+
+/* Khi status = Stopped */
+.statusStopped {
+  color: red;
+  font-weight: bold;
+}
+
+/* Nút dừng xe và sửa */
+.btn-danger,
+.btn-primary {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+}

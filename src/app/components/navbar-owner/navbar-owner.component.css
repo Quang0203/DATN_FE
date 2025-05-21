@@ -1,0 +1,172 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  background-color: rgb(102, 102, 102);
+  color: white;
+  padding: 10px 20px;
+  justify-content: space-between;
+  position: fixed; /* Cố định navbar */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.car-icon {
+  width: 40px;
+  margin-right: 10px;
+  margin-left: 50px;
+}
+.menu ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.menu li {
+  margin-left: 20px;
+  position: relative;
+}
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu a.active {
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}
+
+.dr-ic {
+  background: none;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+.us-icon {
+  width: 32px;
+}
+.drop-icon {
+  width: 16px;
+  cursor: pointer;
+}
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  color: black;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 100;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.dropdown-content a {
+  display: block;
+  padding: 8px 12px;
+  color: black;
+}
+.dropdown-content a:hover {
+  background: #f1f1f1;
+}
+.dropdown-content.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Hamburger menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 2px 0;
+  transition: all 0.3s ease;
+}
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 10px;
+  }
+  .menu ul {
+    display: none;
+  }
+  .menu ul.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: rgb(102, 102, 102);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .menu ul.active li {
+    margin: 10px 0;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .car-icon {
+    margin-left: 10px;
+  }
+  .icon h1 {
+    font-size: 1.2rem;
+  }
+}
+
+/* dialog css */
+.my-swal-popup {
+  background: #1e1e1e;
+  color: #fff;
+  border-radius: 8px;
+}
+.my-swal-confirm-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid #ffc0cb;
+  background: #000;
+  color: #ffc0cb;
+  margin-right: 10px;
+}
+.my-swal-cancel-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #6c0019;
+  color: #fff;
+}

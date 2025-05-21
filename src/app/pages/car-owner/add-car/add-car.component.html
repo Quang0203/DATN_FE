@@ -1,0 +1,82 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="container">
+  <h2>Thêm xe mới</h2>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div class="row">
+      <div class="col-6">
+        <label>Tên xe</label>
+        <input name="name" class="form-control" [(ngModel)]="formData.name" required>
+      </div>
+      <div class="col-6">
+        <label>Hãng xe</label>
+        <input name="brand" class="form-control" [(ngModel)]="formData.brand" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label>Dòng/Phiên bản</label>
+        <input name="model" class="form-control" [(ngModel)]="formData.model" required>
+      </div>
+      <div class="col-6">
+        <label>Màu sắc</label>
+        <input name="color" class="form-control" [(ngModel)]="formData.color" required>
+      </div>
+    </div>
+
+    <!-- Các trường Number of Seats, Production Years, Transmission, Fuel -->
+    <div class="row">
+      <div class="col-6"><label>Số chỗ ngồi</label><input type="number" name="numberofseats" class="form-control" [(ngModel)]="formData.numberofseats" required></div>
+      <div class="col-6"><label>Năm sản xuất</label><input type="number" name="productionyears" class="form-control" [(ngModel)]="formData.productionyears" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Hộp số</label><input name="tranmissiontype" class="form-control" [(ngModel)]="formData.tranmissiontype" required></div>
+      <div class="col-6"><label>Loại nhiên liệu</label><input name="fueltype" class="form-control" [(ngModel)]="formData.fueltype" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Số km đã đi</label><input type="number" name="mileage" class="form-control" [(ngModel)]="formData.mileage" required></div>
+      <div class="col-6"><label>Mức tiêu thụ nhiên liệu (L/100 km)</label><input name="fuelconsumption" class="form-control" [(ngModel)]="formData.fuelconsumption" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Giá cơ bản(VNĐ/ngày)</label><input type="number" name="baseprice" class="form-control" [(ngModel)]="formData.baseprice" required></div>
+      <div class="col-6"><label>Tiền cọc(VNĐ)</label><input type="number" name="deposite" class="form-control" [(ngModel)]="formData.deposite" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Địa điểm nhận/trả xe</label><input name="address" class="form-control" [(ngModel)]="formData.address" required></div>
+      <div class="col-6"><label>Mô tả</label><input name="descripton" class="form-control" [(ngModel)]="formData.descripton" required></div>
+    </div>
+
+    <section class="upload-section">
+      <h4>Tải hình ảnh xe</h4>
+      <input type="file" (change)="onImageChange($event)" accept="image/*">
+      <img *ngIf="preview" [src]="preview" class="preview">
+      <div *ngIf="loading" class="loading">Đang xử lý...</div>
+    </section>
+
+    <section class="terms-section">
+      <h4>Nội quy sử dụng</h4>
+      <label><input type="checkbox" name="noSmoking" [(ngModel)]="termOfUse.noSmoking"> Không hút thuốc</label>
+      <label><input type="checkbox" name="noPet" [(ngModel)]="termOfUse.noPet"> Không thú cưng</label>
+      <label><input type="checkbox" name="noFoodInCar" [(ngModel)]="termOfUse.noFoodInCar"> Không ăn uống</label>
+      <label><input type="checkbox" name="other" [(ngModel)]="termOfUse.other"> Khác</label>
+    </section>
+
+    <section class="additional-section">
+      <h4>Tiện ích & Trang bị thêm</h4>
+      <label><input type="checkbox" name="bluetooth" [(ngModel)]="additionalFunctions.bluetooth"> Bluetooth</label>
+      <label><input type="checkbox" name="gps" [(ngModel)]="additionalFunctions.gps"> GPS</label>
+      <label><input type="checkbox" name="camera" [(ngModel)]="additionalFunctions.camera"> Camera</label>
+      <label><input type="checkbox" name="sunroof" [(ngModel)]="additionalFunctions.sunroof"> Cửa sổ trời</label>
+      <label><input type="checkbox" name="childLock" [(ngModel)]="additionalFunctions.childLock"> Khóa trẻ em</label>
+      <label><input type="checkbox" name="childSeat" [(ngModel)]="additionalFunctions.childSeat"> Ghế trẻ em</label>
+      <label><input type="checkbox" name="dvd" [(ngModel)]="additionalFunctions.dvd"> DVD</label>
+      <label><input type="checkbox" name="usb" [(ngModel)]="additionalFunctions.usb"> USB</label>
+    </section>
+
+    <button type="submit" class="btn btn-primary w-100">Thêm</button>
+    <p class="result" *ngIf="res">{{ res }}</p>
+  </form>
+</div>
+
+<app-footer></app-footer>

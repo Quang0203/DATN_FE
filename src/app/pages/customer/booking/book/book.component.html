@@ -1,0 +1,11 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="book-page container d-flex align-items-center justify-content-center flex-column">
+  <h2>Thông tin hóa đơn</h2>
+  <!-- chỉ hiển thị khi booking đã load xong -->
+  <app-booking-card
+    *ngIf="booking"
+    [booking]="booking"
+    [car]="car">
+  </app-booking-card>
+</div>

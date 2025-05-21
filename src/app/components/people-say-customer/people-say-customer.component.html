@@ -1,0 +1,19 @@
+<section id="people-say" class="people-say">
+  <h2 class="people-say__title">Mọi người nói gì về chúng tôi</h2>
+  <div class="people-say__list">
+    <div class="people-say__item" *ngFor="let item of feedbackData">
+      <div class="people-say__avatar">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpd4mJRIUwqgE8D_Z2znANEbtiz4GhI4M8NQ&s"
+          alt="Avatar"
+        />
+      </div>
+      <div class="people-say__body">
+        <p class="people-say__name">{{ item.user.name }}</p>
+        <p class="people-say__content">{{ item.content }}</p>
+        <p class="people-say__rating">Đánh giá: {{ item.rate }} ★</p>
+        <p class="people-say__date">{{ item.datetime | date:'medium' }}</p>
+      </div>
+    </div>
+  </div>
+</section>

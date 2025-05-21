@@ -1,0 +1,62 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="report-container">
+  <h2>Báo cáo đánh giá</h2>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div class="average-rating">
+    <h3>Đánh giá trung bình</h3>
+    <p class="rating-value">{{ averageRating.toFixed(2) }}</p>
+    <div class="stars">
+      <span *ngFor="let color of renderStars(round(averageRating))"
+      [style.color]="color">&#9733;</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab" [class.active]="selectedRate === null" (click)="selectRate(null)">Tất cả</button>
+    <button class="tab" [class.active]="selectedRate === 5" (click)="selectRate(5)">5 sao</button>
+    <button class="tab" [class.active]="selectedRate === 4" (click)="selectRate(4)">4 sao</button>
+    <button class="tab" [class.active]="selectedRate === 3" (click)="selectRate(3)">3 sao</button>
+    <button class="tab" [class.active]="selectedRate === 2" (click)="selectRate(2)">2 sao</button>
+    <button class="tab" [class.active]="selectedRate === 1" (click)="selectRate(1)">1 sao</button>
+  </div>
+
+  <ul *ngIf="feedbacks.length > 0; else noFeedbacks" class="feedback-list">
+    <li *ngFor="let fb of feedbacks" class="feedback-item">
+      <div class="user-info">
+        <div class="user-id">Khách hàng: {{ fb.userName }}</div>
+      </div>
+      <div class="feedback-content">
+        <p>{{ fb.content }}</p>
+        <div class="feedback-details">
+          <div class="feedback-stars">
+            <span *ngFor="let color of renderStars(fb.rate)" [style.color]="color">&#9733;</span>
+          </div>
+          <div class="feedback-date">{{ fb.datetime | date:'short' }}</div>
+        </div>
+        <div class="car-info">
+          <div class="car-details">
+            <div class="car-image">
+              <img [src]="fb.carImage" alt="Car Avatar" style="width: 100%;" />
+            </div>
+            <div class="car-description">
+              <div class="car-name">{{ fb.carName }}</div>
+              <div class="car-dates">
+                Từ: {{ fb.bookingStartDate | date:'short' }}<br />
+                Đến: {{ fb.bookingEndDate | date:'short' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #noFeedbacks>
+    <p>Không có đánh giá nào.</p>
+  </ng-template>
+</div>
+
+<app-footer></app-footer>

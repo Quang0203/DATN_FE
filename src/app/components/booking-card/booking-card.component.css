@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+}
+img.img-fluid {
+  width: 100%;
+  height: auto;
+}
+
+
+.my-swal-popup {
+  font-family: Arial, sans-serif;
+}
+
+.my-swal-confirm-btn {
+  background-color: #3085d6; /* Màu xanh */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.my-swal-cancel-btn {
+  background-color: #d33; /* Màu đỏ */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+}

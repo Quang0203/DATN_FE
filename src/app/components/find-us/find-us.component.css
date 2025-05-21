@@ -1,0 +1,17 @@
+.find-us {
+  padding: 20px 50px 80px 20px;
+  width: 100%;
+}
+.find-us h2 {
+  margin-bottom: 1rem;
+}
+.find-item {
+  color: white;
+  padding: 145px 0 0 5px;
+  float: left;
+  margin: 50px;
+  width: 27%;
+  height: 40%;
+  background-size: cover;
+  background-position: center;
+}

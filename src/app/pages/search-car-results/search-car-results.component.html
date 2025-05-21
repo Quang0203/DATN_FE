@@ -1,0 +1,41 @@
+<!-- src/app/pages/search-car-results/search-car-results.component.html -->
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="search-results-container">
+  <h1>Kết quả tìm kiếm ở {{ address }}</h1>
+
+  <div 
+    *ngFor="let r of results" 
+    class="car-result-card" 
+    (click)="viewDetails(r.car.idcar)"
+  >
+    <div class="car-image-placeholder">
+      <img 
+        [src]="r.car.images || 'assets/placeholder.jpg'" 
+        [alt]="r.car.name" 
+      />
+    </div>
+    <div class="car-info">
+      <h2>{{ r.car.name }}</h2>
+      <p>Năm sản xuất: {{ r.car.productionyears }}</p>
+      <p>Địa điểm: {{ r.car.address }}</p>
+      <p>Giá mỗi ngày: {{ r.car.baseprice }} VND</p>
+      <p>Số lượt thuê: {{ r.bookingNumber }}</p>
+      <p>Đánh giá: {{ r.rate }} sao</p>
+    </div>
+    <div class="car-actions">
+      <button 
+        (click)="viewDetails(r.car.idcar); $event.stopPropagation()"
+      >
+        Xem chi tiết
+      </button>
+      <button 
+        (click)="rentNow(r.car.idcar); $event.stopPropagation()"
+      >
+        Thuê ngay
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

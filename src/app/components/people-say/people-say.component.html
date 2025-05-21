@@ -1,0 +1,14 @@
+<div id="people-say" class="people-say-container">
+    <h2>Mọi người nói gì về chúng tôi</h2>
+    <div *ngFor="let item of feedbackData" class="people-say-item">
+      <div class="img-people-say">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpd4mJRIUwqgE8D_Z2znANEbtiz4GhI4M8NQ&s" alt="Avatar">
+      </div>
+      <div class="content-people-say">
+        <p>{{ item.user?.name || item.UserName }}</p>
+        <p>{{ item.content || item.FeedbackContent }}</p>
+        <p>{{ item.rate || item.Rating }}</p>
+        <p>{{ item.datetime || item.Date }}</p>
+      </div>
+    </div>
+  </div>

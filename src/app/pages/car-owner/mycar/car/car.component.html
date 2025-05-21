@@ -1,0 +1,24 @@
+<div class="col-12 car-card">
+  <div class="car-image-container">
+    <img [src]="car.images" alt="" class="car-image" />
+  </div>
+  <div class="car-details">
+    <h5>{{ car.name }}</h5>
+    <div class="rating">
+      Đánh giá: 
+      <span>{{ getStarRating(averageRating) }}</span>
+      ({{ averageRating ? averageRating.toFixed(1) : 'Chưa có đánh giá' }})
+    </div>
+    <p>Mã xe: {{ car.idcar }}</p>
+    <p>Giá cơ bản: {{ car.baseprice }}/ngày</p>
+    <p>Địa điểm: {{ car.address }}</p>
+    <p>
+      Trạng thái: 
+      <span [class.statusStopped]="status === 'Stopped'">
+        {{ statusMap[status] || status }}
+      </span>
+    </p>
+    <button *ngIf="status === 'Available'" class="btn btn-danger" (click)="stopCar()">Dừng cho thuê</button>
+    <button *ngIf="status !== 'Booked'" class="btn btn-primary" (click)="editCar()">Chỉnh sửa xe</button>
+  </div>
+</div>

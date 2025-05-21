@@ -1,0 +1,24 @@
+:host {
+  display: block;              /* quan trọng: không ép host thành flex nữa */
+}
+
+.form-container {
+  width: 100%;
+  max-width: 800px;            /* Tăng max-width để chứa 2 cột */
+  margin: 0 auto;              /* Chính giữa page */
+  padding: 0 1rem;             /* Đệm trái phải cho đẹp */
+}
+
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.row {
+  --bs-gutter-x: 1.5rem;       /* Khoảng cách giữa các cột */
+}
+
+.col-md-6 {
+  flex: 0 0 auto;
+  width: 50%;                  /* Đảm bảo mỗi cột chiếm 50% */
+}

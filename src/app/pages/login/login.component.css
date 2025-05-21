@@ -1,0 +1,21 @@
+/* .login, .register {
+    max-width: 400px;
+  }
+   */
+:host {
+  display: block; /* quan trọng: không ép host thành flex nữa */
+  /* để form khỏi sát mép trên */
+  /* padding-top: 2rem;  */
+}
+
+.form-container {
+  width: 100%;
+  max-width: 400px; /* bạn muốn form rộng bao nhiêu */
+  margin: 0 auto; /* chính giữa page */
+  padding: 0 1rem; /* đệm trái phải cho đẹp */
+}
+
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}

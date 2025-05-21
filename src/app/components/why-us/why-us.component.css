@@ -1,0 +1,60 @@
+#why-us.why-us {
+  padding: 40px 20px;
+}
+.why-us__title {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 2.5rem;
+}
+
+/* Bọc flex cho cả row */
+.why-us__list {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* khoảng cách giữa cards */
+}
+
+/* Mỗi card */
+.why-us__card {
+  flex: 1; /* chia đều ba cột */
+  max-width: 300px;
+  background: white;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding-top: 50px; /* để icon không chạm mép */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* Icon ở giữa, nổi lên */
+.why-us__icon {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 1px solid #000;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.why-us__icon i {
+  font-size: 1.5rem;
+}
+
+/* Nội dung card */
+.why-us__content {
+  padding: 20px;
+}
+.why-us__card-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+}
+.why-us__card-text {
+  margin: 0;
+  line-height: 1.5;
+}

@@ -1,0 +1,13 @@
+<div class="list-car-container">
+    <div class="list-car-row">
+      <div *ngFor="let car of listCar" class="list-car-item">
+        <a [routerLink]="['/view-car', car.idcar]">
+          <img [src]="car.images" [alt]="car.name" class="list-car-img" />
+          <div class="list-car-info">
+            <p>{{ car.name }}</p>
+            <button class="list-car-btn">Thuê ngay!</button>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>

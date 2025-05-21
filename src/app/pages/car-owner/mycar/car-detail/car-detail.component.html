@@ -1,0 +1,78 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="container" *ngIf="carForm">
+  <h2>Chỉnh sửa xe</h2>
+  <form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-6" *ngFor="let ctrl of ['name', 'brand', 'model', 'color']">
+        <div class="mb-3">
+          <label [for]="ctrl" class="form-label">{{ labelMap[ctrl] }}</label>
+          <input [id]="ctrl" [formControlName]="ctrl" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6" *ngFor="let ctrl of ['numberofseats', 'productionyears', 'tranmissiontype', 'fueltype']">
+        <div class="mb-3">
+          <label [for]="ctrl" class="form-label">{{ labelMap[ctrl] }}</label>
+          <input
+            [id]="ctrl"
+            [formControlName]="ctrl"
+            [type]="ctrl === 'numberofseats' || ctrl === 'productionyears' ? 'number' : 'text'"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="mileage" class="form-label">{{ labelMap['mileage'] }}</label>
+          <input id="mileage" formControlName="mileage" type="number" class="form-control" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="fuelconsumption" class="form-label">{{ labelMap['fuelconsumption'] }}</label>
+          <input id="fuelconsumption" formControlName="fuelconsumption" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="baseprice" class="form-label">{{ labelMap['baseprice'] }}</label>
+          <input id="baseprice" formControlName="baseprice" type="number" class="form-control" />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="mb-3">
+          <label for="deposite" class="form-label">{{ labelMap['deposite'] }}</label>
+          <input id="deposite" formControlName="deposite" type="number" class="form-control" />
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="address" class="form-label">{{ labelMap['address'] }}</label>
+      <input id="address" formControlName="address" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label for="descripton" class="form-label">{{ labelMap['descripton'] }}</label>
+      <input id="descripton" formControlName="descripton" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">{{ labelMap['images'] }}</label>
+      <input type="file" (change)="onFileChange($event)" class="form-control" />
+      <img *ngIf="preview" [src]="preview" class="img-fluid mt-2" style="max-width: 200px" />
+    </div>
+
+    <button class="btn btn-primary" [disabled]="loading">Lưu</button>
+    <div *ngIf="message" class="text-danger mt-2">{{ message }}</div>
+  </form>
+</div>
+<app-footer></app-footer>

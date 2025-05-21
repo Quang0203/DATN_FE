@@ -1,0 +1,66 @@
+<div class="container d-flex pt-4 border-0 m-0">
+    <div class="row align-items-center">
+      <div class="col-5">
+        <img *ngIf="car" [src]="car.images" alt="" class="img-fluid" />
+      </div>
+      <ng-container *ngIf="car && booking">
+        <div class="col-6">
+          <div class="row">
+            <div class="col-6">
+              <p>Tên xe: {{ car.name }}</p>
+              <p>Hãng xe: {{ car.brand }}</p>
+              <p>Màu sắc: {{ car.color }}</p>
+              <p>Tiền cọc: {{ car.deposite }}</p>
+              <p>
+                Trạng thái:
+                <span class="text-success">{{ statusMap[booking.result.status] }}</span>
+              </p>
+            </div>
+            <div class="col-6">
+              <p>Phương thức thanh toán: {{ booking.result.paymentmethod }}</p>
+              <p>Thời gian nhận: {{ booking.result.startdatetime }}</p>
+              <p>Thời gian trả: {{ booking.result.enddatetime }}</p>
+            </div>
+          </div>
+  
+          <div class="row justify-content-around mt-3">
+            <!-- paidDeposid -->
+            <ng-container *ngIf="listMethod[booking.result.status] === 'paidDeposid'">
+              <button class="col-5 btn btn-secondary" (click)="handleBack()">Quay lại</button>
+              <button class="col-5 btn btn-primary" (click)="handleClick()">Xác nhận trả tiền</button>
+            </ng-container>
+  
+            <!-- returncar -->
+            <ng-container *ngIf="listMethod[booking.result.status] === 'returncar'">
+              <button class="col-5 btn btn-secondary" (click)="handleBack()">Quay lại</button>
+              <button class="col-5 btn btn-primary" (click)="handleClick()">Xác nhận trả xe</button>
+            </ng-container>
+  
+            <!-- Confirmed -->
+            <ng-container *ngIf="booking.result.status === 'Confirmed'">
+              <div class="d-flex justify-content-between w-100">
+                <button class="btn btn-secondary" (click)="handleBack()">Quay lại</button>
+                <button class="btn btn-primary" (click)="handleClick()">Lấy xe</button>
+                <button class="btn btn-danger" (click)="confirmCancel()">Hủy</button>
+              </div>
+            </ng-container>
+  
+            <!-- Completed -->
+            <ng-container *ngIf="booking.result.status === 'Completed'">
+              <div class="d-flex justify-content-between w-100">
+                <button class="btn btn-danger" (click)="handleReport()">Đánh giá</button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  
+    <!-- Modal -->
+    <app-rating-model
+      *ngIf="showModal"
+      [bookingId]="booking.result.idbooking"
+      (close)="handleClose()"
+    ></app-rating-model>
+  </div>
+  
