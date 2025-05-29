@@ -15,16 +15,68 @@ export class SearchCarComponent {
   startDateTime: string = '';
   endDateTime: string = '';
   errorMessage = '';
+  minDateTime: string = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    // Thiết lập thời gian tối thiểu là thời điểm hiện tại
+    this.setMinDateTime();
+  }
+
+  private setMinDateTime(): void {
+    const now = new Date();
+    // Định dạng datetime-local cần format: YYYY-MM-DDTHH:mm
+    this.minDateTime = now.toISOString().slice(0, 16);
+  }
+
+  private isDateTimeInPast(dateTimeString: string): boolean {
+    if (!dateTimeString) return false;
+    const selectedDate = new Date(dateTimeString);
+    const now = new Date();
+    return selectedDate < now;
+  }
+
+  private isEndDateTimeBeforeStartDateTime(): boolean {
+    if (!this.startDateTime || !this.endDateTime) return false;
+    const startDate = new Date(this.startDateTime);
+    const endDate = new Date(this.endDateTime);
+    return endDate <= startDate;
+  }
 
   handleSearch(): void {
-    // reset thông báo
+    // Reset thông báo
     this.errorMessage = '';
 
-    // kiểm tra đủ 3 trường
+    // Kiểm tra đủ 3 trường
     if (!this.address || !this.startDateTime || !this.endDateTime) {
       this.errorMessage = 'Vui lòng nhập địa điểm, ngày giờ nhận và ngày giờ trả xe.';
+      return;
+    }
+
+    // Kiểm tra ngày giờ bắt đầu không được trong quá khứ
+    if (this.isDateTimeInPast(this.startDateTime)) {
+      this.errorMessage = 'Thời gian nhận xe không được chọn trong quá khứ. Vui lòng chọn thời gian hiện tại hoặc tương lai.';
+      return;
+    }
+
+    // Kiểm tra ngày giờ kết thúc không được trong quá khứ
+    if (this.isDateTimeInPast(this.endDateTime)) {
+      this.errorMessage = 'Thời gian trả xe không được chọn trong quá khứ. Vui lòng chọn thời gian hiện tại hoặc tương lai.';
+      return;
+    }
+
+    // Kiểm tra thời gian kết thúc phải lớn hơn thời gian bắt đầu
+    if (this.isEndDateTimeBeforeStartDateTime()) {
+      this.errorMessage = 'Thời gian trả xe phải lớn hơn thời gian nhận xe. Vui lòng chọn lại.';
+      return;
+    }
+
+    // Kiểm tra thời gian thuê tối thiểu (ít nhất 1 giờ)
+    const startDate = new Date(this.startDateTime);
+    const endDate = new Date(this.endDateTime);
+    const diffInHours = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
+    
+    if (diffInHours < 1) {
+      this.errorMessage = 'Thời gian thuê xe phải ít nhất 1 giờ.';
       return;
     }
 
@@ -33,5 +85,29 @@ export class SearchCarComponent {
     params.set('startDateTime', this.startDateTime);
     params.set('endDateTime', this.endDateTime);
     this.router.navigateByUrl(`/search-car-results?${params.toString()}`);
+  }
+
+  // Phương thức để xử lý khi thay đổi thời gian bắt đầu
+  onStartDateTimeChange(): void {
+    // Nếu thời gian kết thúc đã được chọn và nhỏ hơn hoặc bằng thời gian bắt đầu mới
+    if (this.endDateTime && this.isEndDateTimeBeforeStartDateTime()) {
+      // Tự động đặt thời gian kết thúc là 1 giờ sau thời gian bắt đầu
+      const startDate = new Date(this.startDateTime);
+      startDate.setHours(startDate.getHours() + 1);
+      this.endDateTime = startDate.toISOString().slice(0, 16);
+    }
+    
+    // Xóa thông báo lỗi khi người dùng thay đổi
+    if (this.errorMessage) {
+      this.errorMessage = '';
+    }
+  }
+
+  // Phương thức để xử lý khi thay đổi thời gian kết thúc
+  onEndDateTimeChange(): void {
+    // Xóa thông báo lỗi khi người dùng thay đổi
+    if (this.errorMessage) {
+      this.errorMessage = '';
+    }
   }
 }

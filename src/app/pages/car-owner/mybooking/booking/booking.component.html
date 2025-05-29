@@ -12,5 +12,8 @@
     <div class="col-5" *ngIf="status === 'Pending Deposit'">
       <button class="btn btn-primary" (click)="confirmDeposit()">Xác nhận</button>
     </div>
+    <div class="col-5" *ngIf="status === 'Pending Payment'">
+      <button class="btn btn-primary" (click)="confirmPayment()">Xác nhận và hoàn tiền cọc</button>
+    </div>
   </div>
 </div>

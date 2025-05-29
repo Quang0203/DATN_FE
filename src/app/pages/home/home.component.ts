@@ -77,7 +77,18 @@ export class HomeComponent implements OnInit {
   fetchCarData() {
     this.http.get<any>('http://localhost:8080/viewHomepage/getCity').subscribe({
       next: (res) => {
-        this.carData = res.result;
+        // API trả về res.result là Array<[string, number]>
+        this.carData = res.result.map((tuple: [string, number]) => {
+          const [addressRaw, count] = tuple;
+          return {
+            address: addressRaw.trim(),
+            car_count: count,
+            // nếu bạn muốn làm tròn: 
+            car_count_rounded: `${Math.floor(count / 10) * 10}+`,
+            // dùng một ảnh mặc định (hoặc tuỳ chỉnh tuple[2] nếu API có trả thêm URL)
+            image: 'https://placehold.co/600x400?text=' + encodeURIComponent(addressRaw.trim())
+          };
+        });
       },
       error: (err) => console.error('Error fetching car data:', err)
     });

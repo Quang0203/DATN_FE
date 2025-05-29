@@ -2,7 +2,7 @@
 
 <div class="booking-list-container">
   <h1>Đặt xe của tôi</h1>
-  <p>Bạn có {{ bookings.length || 0 }} đơn đặt xe đang hoạt động</p>
+  <p>Bạn có {{ totalElements || 0 }} đơn đặt xe đang hoạt động</p>
 
   <ul *ngIf="bookings.length > 0; else noData" class="booking-list">
     <li *ngFor="let booking of bookings" class="booking-item">
@@ -31,17 +31,11 @@
           Xem chi tiết
         </button>
         <button
-          *ngIf="booking.status.toLowerCase() === 'pending deposit'"
+          *ngIf="booking.status.toLowerCase() === 'pending deposit' || booking.status.toLowerCase() === 'confirmed' || booking.status.toLowerCase() === 'initialized'"
           class="cancel-booking-btn"
           (click)="confirmCancelBooking(booking.idbooking)"
         >
           Hủy đặt xe
-        </button>
-        <button
-          *ngIf="booking.status.toLowerCase() === 'confirmed'"
-          class="update-info-btn"
-        >
-          Cập nhật thông tin nhận xe
         </button>
       </div>
     </li>
@@ -50,6 +44,12 @@
   <ng-template #noData>
     <p>Không có đơn đặt xe nào để hiển thị.</p>
   </ng-template>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">Trước</button>
+    <span>Trang {{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Sau</button>
+  </div>
 </div>
 
 <app-footer></app-footer>

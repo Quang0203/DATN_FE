@@ -8,6 +8,7 @@ import { BenefitsSectionComponent } from '../../../components/benefits-section/b
 
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { BookingComponent } from './booking/booking.component';
+import { PaginatedResponse } from '../../../interfaces';
 
 @Component({
   selector: 'app-mybooking',
@@ -25,6 +26,10 @@ export class MybookingComponent implements OnInit {
   userName = '';
   role = '';
   bookings: any[] = [];
+  currentPage: number = 0;
+  pageSize: number = 5;
+  totalPages: number = 0;
+  totalElements: number = 0;
 
   constructor(
     private bookingSvc: BookingService,
@@ -39,6 +44,31 @@ export class MybookingComponent implements OnInit {
     });
 
     // 2) load bookings
-    this.bookingSvc.getOwnerBookings().subscribe(res => this.bookings = res.result);
+    this.loadBookings(this.currentPage, this.pageSize);
+  }
+
+  loadBookings(page: number, size: number) {
+    this.bookingSvc.getOwnerBookingsNew(page, size).subscribe({
+      next: (response: PaginatedResponse<any>) => {
+        this.bookings = response.content;
+        this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+      },
+      error: err => console.error('Error fetching bookings:', err)
+    });
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadBookings(this.currentPage, this.pageSize);
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadBookings(this.currentPage, this.pageSize);
+    }
   }
 }

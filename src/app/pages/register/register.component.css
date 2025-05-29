@@ -1,5 +1,6 @@
 :host {
   display: block;              /* quan trọng: không ép host thành flex nữa */
+  margin-top: 84px;           /* khoảng cách từ navbar đến form */
 }
 
 .form-container {

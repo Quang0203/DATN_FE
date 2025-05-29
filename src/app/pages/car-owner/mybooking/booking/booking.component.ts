@@ -3,6 +3,7 @@ import { BookingService } from '../../../../services/booking/booking.service';
 import { CarService } from '../../../../services/car/car.service';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-booking',
@@ -28,7 +29,8 @@ export class BookingComponent implements OnInit {
 
   constructor(
     private bookingSvc: BookingService,
-    private carSvc: CarService
+    private carSvc: CarService,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +38,26 @@ export class BookingComponent implements OnInit {
     this.carSvc.getCarDetails(this.booking.carIdcar).subscribe(res => {
       this.car = res.car; // Giả sử API trả về { car: {...} }
     });
+  }
+
+    private headers() {
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+        'Content-Type': 'application/json'
+      })
+    };
+  }
+
+  async bankTransfer(id: number) {
+    try {
+      const res = await this.http
+        .post<any>(`http://localhost:8080/banktransfer/createbanktransfer/${id}`, {}, this.headers())
+        .toPromise();
+      window.location.href = res.result;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   onConfirm() {
@@ -65,4 +87,38 @@ export class BookingComponent implements OnInit {
       }
     });
   }
+
+  onConfirmPayment() {
+    this.bookingSvc.confirmPayment(this.booking.idbooking)
+      .subscribe(() => {
+        this.status = 'Completed';
+      });
+  }
+
+  confirmPayment() {
+    Swal.fire({
+      title: 'Xác nhận nhận tiền thanh toán và hoàn tiền cọc',
+      text: 'Vui lòng xác nhận rằng bạn đã nhận được tiền cho thuê cho lần đặt chỗ này. Và hoàn tiền cọc cho khách hàng',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonText: 'Đồng ý',
+      cancelButtonText: 'Hủy',
+      customClass: {
+        popup: 'my-swal-popup',
+        confirmButton: 'my-swal-confirm-btn',
+        cancelButton: 'my-swal-cancel-btn'
+      },
+      buttonsStyling: false
+    }).then(result => {
+      if (result.isConfirmed) {
+        if( this.booking.paymentmethod === 'Bank transfer') {
+          this.bankTransfer(this.booking.idbooking)
+        }
+        else{
+          this.onConfirmPayment();
+        }
+      }
+    });
+  }
+
 }

@@ -9,4 +9,10 @@
   </div>
 </main>
 
+<div class="pagination" *ngIf="totalPages > 1">
+  <button (click)="previousPage()" [disabled]="currentPage === 0">Trước</button>
+  <span>Trang {{ currentPage + 1 }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Sau</button>
+</div>
+
 <app-footer></app-footer>

@@ -1,14 +1,14 @@
-<div id="people-say" class="people-say-container">
-    <h2>Mọi người nói gì về chúng tôi</h2>
-    <div *ngFor="let item of feedbackData" class="people-say-item">
-      <div class="img-people-say">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpd4mJRIUwqgE8D_Z2znANEbtiz4GhI4M8NQ&s" alt="Avatar">
-      </div>
-      <div class="content-people-say">
-        <p>{{ item.user?.name || item.UserName }}</p>
-        <p>{{ item.content || item.FeedbackContent }}</p>
-        <p>{{ item.rate || item.Rating }}</p>
-        <p>{{ item.datetime || item.Date }}</p>
+<section id="people-say" class="section-wrapper people-say">
+  <h2 class="section-title">Mọi người nói gì về chúng tôi</h2>
+  <div class="people-say__grid">
+    <div class="people-say__card" *ngFor="let item of feedbackData">
+      <img class="people-say__avatar" src="https://i.pravatar.cc/100?u={{item.UserName}}" alt="Avatar" />
+      <div class="people-say__info">
+        <h4>{{ item.UserName }}</h4>
+        <p>{{ item.FeedbackContent }}</p>
+        <p class="people-say__rating">★ {{ item.Rating }}/5</p>
+        <p class="people-say__date">{{ item.Date | date:'medium' }}</p>
       </div>
     </div>
   </div>
+</section>

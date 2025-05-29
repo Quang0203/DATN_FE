@@ -6,6 +6,7 @@
   display: block; /* quan trọng: không ép host thành flex nữa */
   /* để form khỏi sát mép trên */
   /* padding-top: 2rem;  */
+  margin-top: 84px; /* khoảng cách từ navbar đến form */
 }
 
 .form-container {

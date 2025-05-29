@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,14 +11,36 @@ import Swal from 'sweetalert2';
   templateUrl: './navbar-owner.component.html',
   styleUrls: ['./navbar-owner.component.css']
 })
-export class NavbarOwnerComponent {
+export class NavbarOwnerComponent implements OnInit, OnDestroy {
   @Input() name!: string;
   @Input() role!: string;
   isDropdownOpen: boolean = false;
   isMobileMenuOpen: boolean = false;
-  isMobile: boolean = window.innerWidth <= 768; // Giả định mobile < 768px
+  isMobile: boolean = false; // Default to false
 
-  constructor(private router: Router) {}
+  private resizeListener = () => this.checkMobile();
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkMobile();
+      window.addEventListener('resize', this.resizeListener);
+    }
+  }
+
+  ngOnDestroy() {
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
+  }
+
+  private checkMobile() {
+    this.isMobile = window.innerWidth <= 768;
+  }
 
   handleHome() {
     if (this.role === 'CAROWNER') this.router.navigate(['/car-owner']);

@@ -19,20 +19,29 @@ export class BookingCardComponent {
 
   showModal = false;
 
+  // Map status to Vietnamese messages
+  paymentMethodMap: Record<string, string> = {
+    'Bank transfer': 'Chuyển khoản ngân hàng',
+    'Cash': 'Tiền mặt',
+    'My wallet': 'Ví tiền'
+  };
+
   statusMap: Record<string, string> = {
-    'Pending Deposit': 'ĐANG CHỜ CHỦ SỞ HỮU XÁC NHẬN THANH TOÁN',
-    'Confirmed': 'ĐÃ ĐƯỢC CHỦ XE XÁC NHẬN THANH TOÁN',
-    'Pending Payment': 'ĐANG CHỜ THANH TOÁN NỐT HÓA ĐƠN',
-    'In - Progress': 'PHƯƠNG TIỆN ĐANG ĐƯỢC SỬ DỤNG',
-    'Cancelled': 'HÓA ĐƠN ĐÃ BỊ HỦY',
-    'Completed': 'HOÀN TẤT'
+    'Initialized': 'Đã đặt xe thành công',
+    'Pending Deposit': 'Đang chờ chủ sở hữu xác nhận thanh toán tiền đặt cọc',
+    'Confirmed': 'Đã được chủ xe xác nhận thanh toán tiền đặt cọc',
+    'Pending Payment': 'Đang chờ thanh toán nốt hóa đơn',
+    'In - Progress': 'Phương tiện đang được sử dụng',
+    'Cancelled': 'Đơn đặt xe đã bị hủy',
+    'Completed': 'Hoàn thành trả xe thành công',
   };
 
   listMethod: Record<string, string> = {
-    'Pending Deposit': 'paidDeposid',
+    'Initialized': 'paidDeposid',
+    'Pending Deposit': 'confirmed',
     'Confirmed': 'confirmpickup',
     'In - Progress': 'returncar',
-    'Pending Payment': 'returncar'
+    'Pending Payment': 'report'
   };
 
   constructor(private http: HttpClient) {}
@@ -48,6 +57,7 @@ export class BookingCardComponent {
 
   async bookingMethodPost(method: string, id: number) {
     try {
+      // if (method === 'initialized') alert('Xác nhận thanh toán hóa đơn');
       if (method === 'paidDeposid') alert('Xác nhận thanh toán hóa đơn');
       if (method === 'confirmpickup') alert('Xác nhận lấy xe');
       if (method === 'returncar') alert('Xác nhận trả xe');
@@ -64,7 +74,7 @@ export class BookingCardComponent {
   async bankTransfer(id: number) {
     try {
       const res = await this.http
-        .post<any>(`http://localhost:8080/createbanktransfer/${id}`, {}, this.headers())
+        .post<any>(`http://localhost:8080/banktransfer/createbanktransfer/${id}`, {}, this.headers())
         .toPromise();
       window.location.href = res.result;
     } catch (e) {
@@ -75,9 +85,9 @@ export class BookingCardComponent {
   handleClick() {
     const method = this.listMethod[this.booking.result.status];
     console.log('Method:', method);
-    console.log('Booking:', this.booking);
-    if (method === 'paidDeposid' && this.booking.paymentmethod === 'Bank transfer') {
-      this.bankTransfer(this.booking.idbooking);
+    console.log('Booking:', this.booking.result.paymentmethod);
+    if (this.booking.result.paymentmethod === 'Bank transfer' && (method === 'paidDeposid' || method === 'returncar')) {
+      this.bankTransfer(this.booking.result.idbooking);
     } else {
       this.bookingMethodPost(method, this.booking.result.idbooking)
         .then(() => window.location.reload());
@@ -85,7 +95,7 @@ export class BookingCardComponent {
   }
 
   handleBack() {
-    window.location.href = '/customer';
+    window.location.href = '/view-booking-list';
   }
 
   confirmCancel() {

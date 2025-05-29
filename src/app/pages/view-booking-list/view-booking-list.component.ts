@@ -8,7 +8,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import Swal from 'sweetalert2';
 
 import { ProfileService } from '../../services/profile/profile.service';
-import { ViewBookingListResponse } from '../../interfaces';
+import { PaginatedResponse, ViewBookingListResponse } from '../../interfaces';
 import { BookingService } from '../../services/booking/booking.service';
 
 @Component({
@@ -29,6 +29,10 @@ export class ViewBookingListComponent implements OnInit {
   userName = '';
   role = '';
   private isBrowser: boolean;
+  currentPage: number = 0;
+  pageSize: number = 10;
+  totalPages: number = 0;
+  totalElements: number = 0;
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
@@ -51,11 +55,38 @@ export class ViewBookingListComponent implements OnInit {
       error: err => console.error(err)
     });
 
-    // 2) Lấy danh sách booking
-    this.bookingSvc.getBookingsForCurrentUser().subscribe({
-      next: bs => { this.bookings = bs; console.log(bs); },
+    this.loadBookings(this.currentPage, this.pageSize);
+
+    // // 2) Lấy danh sách booking
+    // this.bookingSvc.getBookingsForCurrentUser().subscribe({
+    //   next: bs => { this.bookings = bs; console.log(bs); },
+    //   error: err => console.error('Error fetching bookings:', err)
+    // });
+  }
+
+  loadBookings(page: number, size: number) {
+    this.bookingSvc.getBookingsForCurrentUserNew(page, size).subscribe({
+      next: (response: PaginatedResponse<ViewBookingListResponse>) => {
+        this.bookings = response.content;
+        this.totalPages = response.totalPages;
+        this.totalElements = response.totalElements;
+      },
       error: err => console.error('Error fetching bookings:', err)
     });
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.loadBookings(this.currentPage, this.pageSize);
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages - 1) {
+      this.currentPage++;
+      this.loadBookings(this.currentPage, this.pageSize);
+    }
   }
 
   getStatusClass(status: string): string {

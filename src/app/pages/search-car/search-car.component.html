@@ -29,26 +29,23 @@ lựa chọn. Các gói thuê được tùy chỉnh để phù hợp với nhu c
           type="datetime-local"
           id="startDateTime"
           [(ngModel)]="startDateTime"
+          [min]="minDateTime"
+          (change)="onStartDateTimeChange()"
           class="search-car-input"
         />
       </div>
       <div class="search-car-datetime">
-        <label for="endDateTime">Thời gian trả xe</label>
+        <label for="endDateTime">Thời gian trả xe:</label>
         <input
           type="datetime-local"
           id="endDateTime"
           [(ngModel)]="endDateTime"
+          [min]="startDateTime || minDateTime"
+          (change)="onEndDateTimeChange()"
           class="search-car-input"
         />
       </div>
       <button (click)="handleSearch()" class="search-car-button">Tìm kiếm</button>
-      <!-- <button
-        [disabled]="!address || !startDateTime || !endDateTime"
-        (click)="handleSearch()"
-        class="search-car-button"
-      >
-        SEARCH
-      </button> -->
     </div>
   </div>
 </div>

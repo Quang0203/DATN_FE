@@ -72,6 +72,14 @@ export interface ViewCarDetailsResponse {
   additionalFunctions: Additionalfunctions;
 }
 
+export interface PaginatedResponse<T> {
+    content: T[];
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+}
+
 export interface ViewBookingListResponse {
   idbooking: number;
   bookingno: string;

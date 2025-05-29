@@ -1,29 +1,31 @@
-// src/app/services/profile.service.ts
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ProfileData } from '../../interfaces';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
 
 const API_URL = 'http://localhost:8080';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   /**
-   * Lấy token từ localStorage
+   * Lấy token từ localStorage nếu đang chạy trong trình duyệt
    */
   getToken(): string | null {
-    return localStorage.getItem('authToken');
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('authToken');
+    }
+    return null; // Trả về null khi chạy trên server
   }
 
   /**
    * Xây dựng header Authorization nếu có token
    */
-  // getUser(): Observable<ProfileData> {
-  //   return this.http.get<ProfileData>(`${API_URL}/user/myInfo`, this.getHeaders());
-  // }
   private getHeaders(): { headers: HttpHeaders } {
     const token = this.getToken();
     console.log('Token:', token); // Debugging line to check the token value
@@ -36,30 +38,30 @@ export class ProfileService {
   }
 
   /**
-   * Tương đương với getUser() trong Next.js
-   * Trả về Observable<ProfileData>
+   * Lấy thông tin người dùng
    */
-  getUser(): Observable<ProfileData> {
+  getUser(): Observable<any> {
     return this.http
-      .get<{ code: number; message: string; result: ProfileData }>(
+      .get<{ code: number; message: string; result: any }>(
         `${API_URL}/user/myInfo`,
         this.getHeaders()
       )
       .pipe(
-        map(resp => resp.result)      // <-- unwrap ở đây
+        map(resp => resp.result)
       );
   }
+
   /**
-   * Chuyển tiếp sang getUser (nếu bạn vẫn muốn đặt tên getProfile)
+   * Chuyển tiếp sang getUser
    */
-  getProfile(): Observable<ProfileData> {
+  getProfile(): Observable<any> {
     return this.getUser();
   }
 
   /**
    * Cập nhật thông tin cá nhân
    */
-  updateProfile(id: number, profile: ProfileData): Observable<any> {
+  updateProfile(id: number, profile: any): Observable<any> {
     return this.http.put(
       `${API_URL}/editProfile/userinfo/${id}`,
       profile,
