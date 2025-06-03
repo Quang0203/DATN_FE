@@ -4,7 +4,7 @@
       <h2>Bạn đang tìm xe? Bạn đã đến đúng nơi rồi.</h2>
       <p>
         Chúng tôi có nhiều loại xe do địa phương sở hữu để bạn
-lựa chọn. Các gói thuê được tùy chỉnh để phù hợp với nhu cầu của bạn.
+        lựa chọn. Các gói thuê được tùy chỉnh để phù hợp với nhu cầu của bạn.
       </p>
       <p>
         Với hơn 300 xe trên toàn quốc, chúng tôi sẽ có thứ gì đó dành cho bạn.
@@ -17,34 +17,66 @@ lựa chọn. Các gói thuê được tùy chỉnh để phù hợp với nhu c
       <div *ngIf="errorMessage" class="alert alert-warning">
         {{ errorMessage }}
       </div>
+      
       <input
         type="text"
         [(ngModel)]="address"
         placeholder="Nhập địa chỉ"
         class="search-car-input"
       />
+      
       <div class="search-car-datetime">
         <label for="startDateTime">Thời gian nhận xe:</label>
-        <input
-          type="datetime-local"
-          id="startDateTime"
-          [(ngModel)]="startDateTime"
-          [min]="minDateTime"
-          (change)="onStartDateTimeChange()"
-          class="search-car-input"
-        />
+        <div class="datetime-input-wrapper">
+          <!-- Input hiển thị với placeholder -->
+          <input
+            type="text"
+            [value]="startDateTimeDisplay"
+            placeholder="Chọn ngày và giờ nhận xe"
+            class="search-car-input datetime-display"
+            (click)="onStartDisplayClick()"
+            readonly
+          />
+          <!-- Input datetime-local ẩn -->
+          <input
+            type="datetime-local"
+            id="startDateTime"
+            [(ngModel)]="startDateTime"
+            [min]="minDateTime"
+            (change)="onStartDateTimeChange()"
+            (focus)="onStartDateTimeFocus()"
+            (blur)="onStartDateTimeBlur()"
+            class="datetime-hidden"
+          />
+        </div>
       </div>
+      
       <div class="search-car-datetime">
         <label for="endDateTime">Thời gian trả xe:</label>
-        <input
-          type="datetime-local"
-          id="endDateTime"
-          [(ngModel)]="endDateTime"
-          [min]="startDateTime || minDateTime"
-          (change)="onEndDateTimeChange()"
-          class="search-car-input"
-        />
+        <div class="datetime-input-wrapper">
+          <!-- Input hiển thị với placeholder -->
+          <input
+            type="text"
+            [value]="endDateTimeDisplay"
+            placeholder="Chọn ngày và giờ trả xe"
+            class="search-car-input datetime-display"
+            (click)="onEndDisplayClick()"
+            readonly
+          />
+          <!-- Input datetime-local ẩn -->
+          <input
+            type="datetime-local"
+            id="endDateTime"
+            [(ngModel)]="endDateTime"
+            [min]="startDateTime || minDateTime"
+            (change)="onEndDateTimeChange()"
+            (focus)="onEndDateTimeFocus()"
+            (blur)="onEndDateTimeBlur()"
+            class="datetime-hidden"
+          />
+        </div>
       </div>
+      
       <button (click)="handleSearch()" class="search-car-button">Tìm kiếm</button>
     </div>
   </div>

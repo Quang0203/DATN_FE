@@ -1,18 +1,18 @@
-<!-- Nút mở/đóng chat -->
 <div class="chat-button" (click)="toggleChat()">
   <img src="/icon/Client256.png" alt="Chat" />
 </div>
 
-<!-- Khung chat -->
 <div *ngIf="showChat" class="chat-container">
   <div class="chat-header">Tư vấn thuê xe</div>
   <div class="chat-body">
-    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender" class="message">
       <div class="bubble">
-        <!-- Nếu link nội bộ, chuyển RouterLink -->
-        <span *ngIf="false"></span>
         <div [innerHTML]="msg.content"></div>
       </div>
+    </div>
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <span>Đang tải...</span>
     </div>
   </div>
   

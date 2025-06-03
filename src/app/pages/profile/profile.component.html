@@ -47,24 +47,63 @@
                [(ngModel)]="profileData.email" placeholder="Nhập email của bạn" />
       </div>
       <div class="form-group">
-        <label for="city">Thành phố:</label>
-        <input id="city" name="city" type="text"
-               [(ngModel)]="profileData.city" placeholder="Nhập thành phố của bạn" />
+        <label for="province">Tỉnh/Thành phố:</label>
+        <select
+          id="province"
+          class="form-control"
+          name="province" 
+          [(ngModel)]="selectedProvince"
+          (change)="selectedProvince && onProvinceChange(selectedProvince)"
+          required
+        >
+          <option value="" disabled selected>Chọn tỉnh/thành phố</option>
+          <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+        </select>
       </div>
+
       <div class="form-group">
         <label for="district">Quận/Huyện:</label>
-        <input id="district" name="district" type="text"
-               [(ngModel)]="profileData.district" placeholder="Nhập quận/huyện của bạn" />
+        <select
+          id="district"
+          class="form-control"
+          name="district" 
+          [(ngModel)]="selectedDistrict"
+          (change)="selectedDistrict && onDistrictChange(selectedDistrict)"
+          [disabled]="!selectedProvince"
+          required
+        >
+          <option value="" disabled selected>Chọn quận/huyện</option>
+          <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+        </select>
       </div>
+
       <div class="form-group">
         <label for="ward">Phường/Xã:</label>
-        <input id="ward" name="ward" type="text"
-               [(ngModel)]="profileData.ward" placeholder="Nhập phường/xã của bạn" />
+        <select
+          id="ward"
+          class="form-control"
+          name="ward" 
+          [(ngModel)]="selectedWard"
+          (change)="onWardChange(selectedWard)"
+          [disabled]="!selectedDistrict"
+          required
+        >
+          <option value="" disabled selected>Chọn phường/xã</option>
+          <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+        </select>
       </div>
+
       <div class="form-group">
-        <label for="housenumber">Số nhà:</label>
-        <input id="housenumber" name="housenumber" type="text"
-               [(ngModel)]="profileData.housenumber" placeholder="Nhập số nhà của bạn" />
+        <label for="housenumber">Số nhà, Đường:</label>
+        <input
+          id="housenumber"
+          class="form-control"
+          type="text"
+          name="housenumber" 
+          [(ngModel)]="profileData.housenumber"
+          placeholder="Nhập số nhà, tên đường"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="drivinglicense">Giấy phép lái xe:</label>

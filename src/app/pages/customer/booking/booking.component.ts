@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NavbarOwnerComponent } from '../../../components/navbar-owner/navbar-owner.component';
-import { BookingItemCustomerComponent } from '../../../components/booking-item-customer/booking-item-customer.component';
 import { BookingItemComponent } from '../../../components/booking-item/booking-item.component';
 
 @Component({

@@ -35,6 +35,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 .search-car-button {
@@ -63,4 +64,58 @@
   color: #856404;
   background-color: #fff3cd;
   border-color: #ffeaa7;
+}
+
+/* Custom datetime input styles */
+.datetime-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.datetime-display {
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+}
+
+.datetime-display:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.datetime-display::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.datetime-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+  /* Không cho click khi chưa focus */
+  pointer-events: none; 
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-car-content {
+    flex-direction: column;
+  }
+  
+  .search-car-info,
+  .search-car-form {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .search-car-form {
+    margin-right: 0;
+  }
 }

@@ -24,7 +24,9 @@ export class BookingComponent implements OnInit {
     'In - Progress': 'Đang thực hiện',
     'Completed': 'Hoàn thành',
     'Cancelled': 'Đã hủy',
-    'Pending Payment': 'Chờ thanh toán'
+    'Pending Payment': 'Chờ thanh toán',
+    'Reported': 'Đã đánh giá',
+    'Initialized': 'Đã khởi tạo thuê xe'
   };
 
   constructor(

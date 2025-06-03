@@ -10,7 +10,7 @@
       ({{ averageRating ? averageRating.toFixed(1) : 'Chưa có đánh giá' }})
     </div>
     <p>Mã xe: {{ car.idcar }}</p>
-    <p>Giá cơ bản: {{ car.baseprice }}/ngày</p>
+    <p>Giá cơ bản: {{ car.baseprice | number:'1.0-0'}}/ngày</p>
     <p>Địa điểm: {{ car.address }}</p>
     <p>
       Trạng thái: 

@@ -34,6 +34,7 @@ export class BookingCardComponent {
     'In - Progress': 'Phương tiện đang được sử dụng',
     'Cancelled': 'Đơn đặt xe đã bị hủy',
     'Completed': 'Hoàn thành trả xe thành công',
+    'Reported': 'Đã đánh giá xe',
   };
 
   listMethod: Record<string, string> = {

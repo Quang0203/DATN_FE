@@ -25,7 +25,6 @@
       </div>
     </div>
 
-    <!-- Các trường Number of Seats, Production Years, Transmission, Fuel -->
     <div class="row">
       <div class="col-6"><label>Số chỗ ngồi</label><input type="number" name="numberofseats" class="form-control" [(ngModel)]="formData.numberofseats" required></div>
       <div class="col-6"><label>Năm sản xuất</label><input type="number" name="productionyears" class="form-control" [(ngModel)]="formData.productionyears" required></div>
@@ -42,9 +41,78 @@
       <div class="col-6"><label>Giá cơ bản(VNĐ/ngày)</label><input type="number" name="baseprice" class="form-control" [(ngModel)]="formData.baseprice" required></div>
       <div class="col-6"><label>Tiền cọc(VNĐ)</label><input type="number" name="deposite" class="form-control" [(ngModel)]="formData.deposite" required></div>
     </div>
+    <!-- <div class="row">
+      <div class="col-12"><label>Địa điểm nhận/trả xe</label><input name="address" class="form-control" [(ngModel)]="formData.address" required></div>
+    </div> -->
     <div class="row">
-      <div class="col-6"><label>Địa điểm nhận/trả xe</label><input name="address" class="form-control" [(ngModel)]="formData.address" required></div>
-      <div class="col-6"><label>Mô tả</label><input name="descripton" class="form-control" [(ngModel)]="formData.descripton" required></div>
+      <div class="col-12">
+        <label>Mô tả</label>
+        <textarea name="descripton" class="form-control" [(ngModel)]="formData.descripton" required rows="4"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="province">Tỉnh/Thành phố:</label>
+        <select
+          id="province"
+          class="form-control"
+          name="province"
+          [(ngModel)]="selectedProvince"
+          (change)="selectedProvince && onProvinceChange(selectedProvince)"
+          required
+        >
+          <option value="" disabled selected>Chọn tỉnh/thành phố</option>
+          <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-6">
+        <label for="district">Quận/Huyện:</label>
+        <select
+          id="district"
+          class="form-control"
+          name="district"
+          [(ngModel)]="selectedDistrict"
+          (change)="selectedDistrict && onDistrictChange(selectedDistrict)"
+          [disabled]="!selectedProvince"
+          required
+        >
+          <option value="" disabled selected>Chọn quận/huyện</option>
+          <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="ward">Phường/Xã:</label>
+        <select
+          id="ward"
+          class="form-control"
+          name="ward"
+          [(ngModel)]="selectedWard"
+          (change)="onWardChange(selectedWard)"
+          [disabled]="!selectedDistrict"
+          required
+        >
+          <option value="" disabled selected>Chọn phường/xã</option>
+          <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-6">
+        <label for="street">Đường/Số nhà:</label>
+        <input
+          id="street"
+          class="form-control"
+          type="text"
+          name="street"
+          [(ngModel)]="formData.street"
+          placeholder="Nhập đường/số nhà"
+          required
+        />
+      </div>
     </div>
 
     <section class="upload-section">

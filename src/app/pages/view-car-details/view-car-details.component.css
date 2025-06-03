@@ -27,12 +27,94 @@ p {
   margin: 5px 0;
 }
 
+/* Status styling */
+.status-available {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-booked {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.status-stopped {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Booked periods styling */
+.booked-periods {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+}
+
+.booked-title {
+  color: #856404;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.booking-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+}
+
+.booking-period {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.booking-period i {
+  margin-right: 5px;
+  color: #6c757d;
+}
+
+.booking-status {
+  padding: 8px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-in-progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
 .tabs {
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
   border-bottom: 2px solid #ddd;
-  background-color: #e0ffe0; /* Màu xanh nhạt */
+  background-color: #e0ffe0;
 }
 
 .tabs button {
@@ -41,11 +123,11 @@ p {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
-  color: #333; /* Màu chữ tối hơn */
+  color: #333;
 }
 
 .tabs .active {
-  border-bottom: 2px solid #28a745; /* Màu xanh lá cây */
+  border-bottom: 2px solid #28a745;
   color: #28a745;
   font-weight: bold;
 }
@@ -79,16 +161,23 @@ input[type="checkbox"] {
 }
 
 .btn-book {
-  background-color: #28a745; /* Màu xanh lá cây */
+  background-color: #28a745;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.btn-book:hover {
-  background-color: #218838; /* Màu xanh đậm hơn khi hover */
+.btn-book:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-disabled {
+  background-color: #6c757d !important;
+  cursor: not-allowed !important;
+  opacity: 0.6;
 }
 
 .star-rating {
@@ -98,12 +187,12 @@ input[type="checkbox"] {
 .star-container {
   position: relative;
   display: inline-block;
-  width: 20px; /* Kích thước của mỗi sao */
+  width: 20px;
   height: 20px;
 }
 
 .star-container .far.fa-star {
-  color: #a1959598; /* Màu xám cho sao trống */
+  color: #a1959598;
   position: absolute;
   top: 0;
   left: 0;
@@ -120,7 +209,7 @@ input[type="checkbox"] {
 }
 
 .filled-overlay .fas.fa-star {
-  color: #f8ce0b; /* Màu vàng cho sao được tô */
+  color: #f8ce0b;
   position: absolute;
   top: 0;
   left: 0;

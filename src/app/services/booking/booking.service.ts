@@ -59,6 +59,14 @@ export class BookingService {
     );
   }
 
+   /** ==== MỚI: Lấy danh sách booking của xe ==== */
+  getBookingsByCarId(carId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${API_URL}/searchCar/bookingcar/${carId}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
   /** ==== Dành cho Car Owner ==== */
   getOwnerBookings(): Observable<any> {
     return this.http.get<any>(

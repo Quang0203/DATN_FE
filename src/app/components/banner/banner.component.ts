@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-banner',
@@ -6,4 +7,14 @@ import { Component } from '@angular/core';
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.css']
 })
-export class BannerComponent {}
+export class BannerComponent {
+
+  constructor(
+    private router: Router
+  ) { }
+
+  onLogin() {
+    this.router.navigate(['/login']);
+  }
+
+}

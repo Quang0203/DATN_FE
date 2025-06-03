@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NavbarComponent } from '../../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-reset-password',
@@ -11,7 +12,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     CommonModule,
     FormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    NavbarComponent
   ],
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']

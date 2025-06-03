@@ -16,6 +16,12 @@ export class SearchCarComponent {
   endDateTime: string = '';
   errorMessage = '';
   minDateTime: string = '';
+  
+  // Hiển thị placeholder cho datetime inputs
+  startDateTimeDisplay: string = '';
+  endDateTimeDisplay: string = '';
+  isStartDateTimeFocused: boolean = false;
+  isEndDateTimeFocused: boolean = false;
 
   constructor(private router: Router) {
     // Thiết lập thời gian tối thiểu là thời điểm hiện tại
@@ -40,6 +46,17 @@ export class SearchCarComponent {
     const startDate = new Date(this.startDateTime);
     const endDate = new Date(this.endDateTime);
     return endDate <= startDate;
+  }
+
+  private formatDateTimeForDisplay(dateTimeString: string): string {
+    if (!dateTimeString) return '';
+    const date = new Date(dateTimeString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
   }
 
   handleSearch(): void {
@@ -87,14 +104,32 @@ export class SearchCarComponent {
     this.router.navigateByUrl(`/search-car-results?${params.toString()}`);
   }
 
+  // Xử lý khi focus vào start datetime
+  onStartDateTimeFocus(): void {
+    this.isStartDateTimeFocused = true;
+  }
+
+  // Xử lý khi blur khỏi start datetime
+  onStartDateTimeBlur(): void {
+    this.isStartDateTimeFocused = false;
+    if (this.startDateTime) {
+      this.startDateTimeDisplay = this.formatDateTimeForDisplay(this.startDateTime);
+    }
+  }
+
   // Phương thức để xử lý khi thay đổi thời gian bắt đầu
   onStartDateTimeChange(): void {
+    if (this.startDateTime) {
+      this.startDateTimeDisplay = this.formatDateTimeForDisplay(this.startDateTime);
+    }
+
     // Nếu thời gian kết thúc đã được chọn và nhỏ hơn hoặc bằng thời gian bắt đầu mới
     if (this.endDateTime && this.isEndDateTimeBeforeStartDateTime()) {
       // Tự động đặt thời gian kết thúc là 1 giờ sau thời gian bắt đầu
       const startDate = new Date(this.startDateTime);
       startDate.setHours(startDate.getHours() + 1);
       this.endDateTime = startDate.toISOString().slice(0, 16);
+      this.endDateTimeDisplay = this.formatDateTimeForDisplay(this.endDateTime);
     }
     
     // Xóa thông báo lỗi khi người dùng thay đổi
@@ -103,11 +138,54 @@ export class SearchCarComponent {
     }
   }
 
+  // Xử lý khi focus vào end datetime
+  onEndDateTimeFocus(): void {
+    this.isEndDateTimeFocused = true;
+  }
+
+  // Xử lý khi blur khỏi end datetime
+  onEndDateTimeBlur(): void {
+    this.isEndDateTimeFocused = false;
+    if (this.endDateTime) {
+      this.endDateTimeDisplay = this.formatDateTimeForDisplay(this.endDateTime);
+    }
+  }
+
   // Phương thức để xử lý khi thay đổi thời gian kết thúc
   onEndDateTimeChange(): void {
+    if (this.endDateTime) {
+      this.endDateTimeDisplay = this.formatDateTimeForDisplay(this.endDateTime);
+    }
+
     // Xóa thông báo lỗi khi người dùng thay đổi
     if (this.errorMessage) {
       this.errorMessage = '';
     }
   }
+
+  // Xử lý khi click vào display input
+  onStartDisplayClick(): void {
+  const hiddenInput = document.getElementById('startDateTime') as HTMLInputElement;
+  if (hiddenInput) {
+    if ('showPicker' in hiddenInput) {
+      // Hiện picker nếu trình duyệt hỗ trợ
+      (hiddenInput as any).showPicker();
+    } else {
+      (hiddenInput as HTMLInputElement).focus();
+      (hiddenInput as HTMLInputElement).click();
+    }
+  }
+}
+
+onEndDisplayClick(): void {
+  const hiddenInput = document.getElementById('endDateTime') as HTMLInputElement;
+  if (hiddenInput) {
+    if ('showPicker' in hiddenInput) {
+      (hiddenInput as any).showPicker();
+    } else {
+      (hiddenInput as HTMLInputElement).focus();
+      (hiddenInput as HTMLInputElement).click();
+    }
+  }
+}
 }

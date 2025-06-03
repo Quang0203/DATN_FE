@@ -10,7 +10,7 @@
             <p>Tên xe: {{ car.name }}</p>
             <p>Hãng xe: {{ car.brand }}</p>
             <p>Màu sắc: {{ car.color }}</p>
-            <p>Tiền cọc: {{ car.deposite }}</p>
+            <p>Tiền cọc: {{ car.deposite | number:'1.0-0'}}</p>
             <p>
               Trạng thái:
               <span class="text-success">{{ statusMap[booking.result.status] }}</span>

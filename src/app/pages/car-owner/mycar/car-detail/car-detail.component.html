@@ -56,13 +56,53 @@
       </div>
     </div>
 
-    <div class="mb-3">
-      <label for="address" class="form-label">{{ labelMap['address'] }}</label>
-      <input id="address" formControlName="address" class="form-control" />
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label for="province" class="form-label">Tỉnh/Thành phố</label>
+        <select id="province" class="form-control"
+          [ngModel]="selectedProvince"
+          (ngModelChange)="onProvinceChange($event)"
+          [ngModelOptions]="{standalone: true}">
+          <option value="">Chọn tỉnh/thành phố</option>
+          <option *ngFor="let p of provinces" [value]="p.code">{{ p.name }}</option>
+        </select>
+      </div>
+      <div class="col-6 mb-3">
+        <label for="district" class="form-label">Quận/Huyện</label>
+        <select id="district" class="form-control"
+          [ngModel]="selectedDistrict"
+          (ngModelChange)="onDistrictChange($event)"
+          [disabled]="!selectedProvince"
+          [ngModelOptions]="{standalone: true}">
+          <option value="">Chọn quận/huyện</option>
+          <option *ngFor="let d of districts" [value]="d.code">{{ d.name }}</option>
+        </select>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-6 mb-3">
+        <label for="ward" class="form-label">Phường/Xã</label>
+        <select id="ward" class="form-control"
+          [ngModel]="selectedWard"
+          (ngModelChange)="onWardChange($event)"
+          [disabled]="!selectedDistrict"
+          [ngModelOptions]="{standalone: true}">
+          <option value="">Chọn phường/xã</option>
+          <option *ngFor="let w of wards" [value]="w.code">{{ w.name }}</option>
+        </select>
+      </div>
+      <div class="col-6 mb-3">
+        <label for="street" class="form-label">Đường/Số nhà</label>
+        <input id="street" class="form-control"
+          [(ngModel)]="street"
+          [ngModelOptions]="{standalone: true}"
+          placeholder="Nhập đường/số nhà" />
+      </div>
+    </div>
+    
     <div class="mb-3">
       <label for="descripton" class="form-label">{{ labelMap['descripton'] }}</label>
-      <input id="descripton" formControlName="descripton" class="form-control" />
+      <textarea id="descripton" formControlName="descripton" class="form-control" rows="4"></textarea>
     </div>
 
     <div class="mb-3">

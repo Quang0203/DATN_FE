@@ -4,12 +4,10 @@
   <div class="card p-4">
     <h2 class="mb-4 text-center">Đăng ký</h2>
     <form (ngSubmit)="handleRegister()" #f="ngForm">
-      <!-- Sắp xếp các trường thành 2 cột -->
       <div class="row g-3">
-        <!-- Hàng 1: Họ & tên và Ngày sinh -->
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Họ & tên</label>
+            <label class="form-label">Họ & tên<span class="required">*</span></label>
             <input
               class="form-control"
               type="text"
@@ -21,7 +19,7 @@
         </div>
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Ngày sinh</label>
+            <label class="form-label">Ngày sinh<span class="required">*</span></label>
             <input
               class="form-control"
               type="date"
@@ -32,10 +30,9 @@
           </div>
         </div>
 
-        <!-- Hàng 2: CMND/CCCD và Email -->
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">CMND/CCCD</label>
+            <label class="form-label">CMND/CCCD<span class="required">*</span></label>
             <input
               class="form-control"
               type="text"
@@ -47,7 +44,7 @@
         </div>
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Email</label>
+            <label class="form-label">Email<span class="required">*</span></label>
             <input
               class="form-control"
               type="email"
@@ -58,10 +55,9 @@
           </div>
         </div>
 
-        <!-- Hàng 3: Số điện thoại và Địa chỉ -->
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Số điện thoại</label>
+            <label class="form-label">Số điện thoại<span class="required">*</span></label>
             <input
               class="form-control"
               type="text"
@@ -73,21 +69,69 @@
         </div>
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Địa chỉ</label>
+            <label class="form-label">Tỉnh/Thành phố<span class="required">*</span></label>
+            <select
+              class="form-select"
+              name="province"
+              [(ngModel)]="selectedProvince"
+              (change)="selectedProvince && onProvinceChange(selectedProvince)"
+              required
+            >
+              <option value="" disabled selected>Chọn tỉnh/thành phố</option>
+              <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Quận/Huyện<span class="required">*</span></label>
+            <select
+              class="form-select"
+              name="district"
+              [(ngModel)]="selectedDistrict"
+              (change)="selectedDistrict && onDistrictChange(selectedDistrict)"
+              required
+              [disabled]="!selectedProvince"
+            >
+              <option value="" disabled selected>Chọn quận/huyện</option>
+              <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Phường/Xã<span class="required">*</span></label>
+            <select
+              class="form-select"
+              name="ward"
+              [(ngModel)]="selectedWard"
+              (change)="onWardChange(selectedWard)"
+              required
+              [disabled]="!selectedDistrict"
+            >
+              <option value="" disabled selected>Chọn phường/xã</option>
+              <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Đường/Số nhà<span class="required">*</span></label>
             <input
               class="form-control"
               type="text"
-              name="address"
-              [(ngModel)]="registerData.address"
+              name="street"
+              [(ngModel)]="registerData.street"
+              placeholder="Nhập đường/số nhà"
               required
             />
           </div>
         </div>
-
-        <!-- Hàng 4: Bằng lái xe và Mật khẩu -->
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Bằng lái xe</label>
+            <label class="form-label">Bằng lái xe<span class="required">*</span></label>
             <input
               class="form-control"
               type="text"
@@ -97,9 +141,10 @@
             />
           </div>
         </div>
+
         <div class="col-md-6">
           <div class="mb-3">
-            <label class="form-label">Mật khẩu</label>
+            <label class="form-label">Mật khẩu<span class="required">*</span></label>
             <input
               class="form-control"
               type="password"
@@ -111,7 +156,6 @@
         </div>
       </div>
 
-      <!-- Phần chọn vai trò -->
       <div class="mb-3">
         <label class="form-label">Vai trò</label>
         <select

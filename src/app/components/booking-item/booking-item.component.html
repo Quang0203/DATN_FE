@@ -27,7 +27,7 @@
           </p>
           <p class="card-text">
             Giá thuê:
-            <strong>{{ car.baseprice }} VND/ngày</strong>
+            <strong>{{ car.baseprice | number:'1.0-0'}} VND/ngày</strong>
           </p>
           <p class="card-text">
             Địa điểm nhận xe:
@@ -41,6 +41,24 @@
               >{{ statusMap[car.status] || car.status }}</strong
             >
           </p>
+          <!-- Hiển thị khoảng thời gian đã đặt nếu xe có trạng thái "Booked" -->
+        <div *ngIf="car.status === 'Booked' && activeBookings.length > 0" class="booked-periods">
+          <h4 class="booked-title">Khoảng thời gian đã được đặt:</h4>
+          <div class="booking-list">
+            <div *ngFor="let booking of activeBookings" class="booking-item">
+              <div class="booking-period">
+                <i class="fas fa-calendar-alt"></i>
+                <strong>Từ:</strong> {{ formatDateTime(booking.startdatetime) }}
+                <br>
+                <i class="fas fa-calendar-check"></i>
+                <strong>Đến:</strong> {{ formatDateTime(booking.enddatetime) }}
+              </div>
+              <div class="booking-status" [ngClass]="'status-' + booking.status?.toLowerCase()">
+                {{ booking.status }}
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
@@ -50,21 +68,67 @@
       <div class="card">
         <div class="card-body">
           <h3 class="card-title">Thông tin thuê xe</h3>
+          
+          <!-- Thông báo lỗi -->
+          <div *ngIf="errorMessage" class="alert alert-warning">
+            {{ errorMessage }}
+          </div>
+          
           <form (ngSubmit)="onSubmit()">
-            <!-- Start / End datetime -->
-            <div class="mb-3" *ngFor="let dt of ['startdatetime','enddatetime']">
-              <label [for]="dt" class="form-label">
-                {{ dt === 'startdatetime' ? 'Thời gian nhận' : 'Thời gian trả' }}
-              </label>
-              <input
-                type="datetime-local"
-                class="form-control"
-                [name]="dt"
-                [id]="dt"
-                [(ngModel)]="formData[dt]"
-                (change)="onDateChange($event)"
-                required
-              />
+            <!-- Start datetime -->
+            <div class="mb-3">
+              <label for="startdatetime" class="form-label">Thời gian nhận xe:</label>
+              <div class="datetime-input-wrapper">
+                <!-- Input hiển thị với placeholder -->
+                <input
+                  type="text"
+                  [value]="startDateTimeDisplay"
+                  placeholder="Chọn ngày và giờ nhận xe"
+                  class="form-control datetime-display"
+                  (click)="onStartDisplayClick()"
+                  readonly
+                />
+                <!-- Input datetime-local ẩn -->
+                <input
+                  type="datetime-local"
+                  id="startdatetime"
+                  name="startdatetime"
+                  [(ngModel)]="formData['startdatetime']"
+                  [min]="minDateTime"
+                  (change)="onStartDateTimeChange()"
+                  (focus)="onStartDateTimeFocus()"
+                  (blur)="onStartDateTimeBlur()"
+                  class="datetime-hidden"
+                />
+              </div>
+            </div>
+
+            <!-- End datetime -->
+            <div class="mb-3">
+              <label for="enddatetime" class="form-label">Thời gian trả xe:</label>
+              <div class="datetime-input-wrapper">
+                <!-- Input hiển thị với placeholder -->
+                <input
+                  type="text"
+                  [value]="endDateTimeDisplay"
+                  placeholder="Chọn ngày và giờ trả xe"
+                  class="form-control datetime-display"
+                  (click)="onEndDisplayClick()"
+                  readonly
+                />
+                <!-- Input datetime-local ẩn -->
+                <input
+                  type="datetime-local"
+                  id="enddatetime"
+                  name="enddatetime"
+                  [(ngModel)]="formData['enddatetime']"
+                  [min]="formData['startdatetime'] || minDateTime"
+                  (change)="onEndDateTimeChange()"
+                  (focus)="onEndDateTimeFocus()"
+                  (blur)="onEndDateTimeBlur()"
+                  class="datetime-hidden"
+                />
+              </div>
             </div>
 
             <!-- Payment methods -->

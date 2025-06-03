@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { NavbarOwnerComponent } from '../../../components/navbar-owner/navbar-owner.component';
 import { BenefitsSectionComponent } from '../../../components/benefits-section/benefits-section.component';
@@ -62,10 +63,18 @@ export class AddCarComponent implements OnInit {
   readonly CLOUD_NAME = 'quangkedo'; // tên Cloudinary của bạn
   readonly UPLOAD_PRESET = 'datnupload'; // tên upload preset của bạn
 
+  provinces: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+  selectedProvince: number | null = null;
+  selectedDistrict: number | null = null;
+  selectedWard: number | null = null;
+
   constructor(
     private profileSvc: ProfileService,
     private carSvc: CarService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +85,61 @@ export class AddCarComponent implements OnInit {
       },
       error: () => {}
     });
+
+    this.fetchProvinces();
+  }
+
+  private fetchProvinces() {
+    this.http.get('https://provinces.open-api.vn/api/p').subscribe({
+      next: (data: any) => {
+        this.provinces = data;
+        console.log('Danh sách tỉnh/thành phố:', this.provinces);
+      },
+      error: err => console.error('Lỗi khi lấy danh sách tỉnh/thành phố:', err)
+    });
+  }
+
+  onProvinceChange(provinceId: number | null) {
+    if (!provinceId) return;
+    this.selectedProvince = provinceId;
+    console.log('Selected Province ID:', this.selectedProvince);
+    this.districts = [];
+    this.wards = [];
+    this.selectedDistrict = null;
+    this.selectedWard = null;
+    this.formData.district = '';
+    this.formData.ward = '';
+
+    this.http.get(`https://provinces.open-api.vn/api/p/${provinceId}?depth=2`).subscribe({
+      next: (data: any) => {
+        console.log('Dữ liệu quận/huyện:', data.districts);
+        this.districts = data.districts;
+      },
+      error: err => console.error('Lỗi khi lấy danh sách quận/huyện:', err)
+    });
+  }
+
+  onDistrictChange(districtId: number | null) {
+    if (!districtId) return;
+    this.selectedDistrict = districtId;
+    console.log('Selected District ID:', this.selectedDistrict);
+    this.wards = [];
+    this.selectedWard = null;
+    this.formData.ward = '';
+
+    this.http.get(`https://provinces.open-api.vn/api/d/${districtId}?depth=2`).subscribe({
+      next: (data: any) => {
+        console.log('Dữ liệu xã/phường:', data.wards);
+        this.wards = data.wards;
+      },
+      error: err => console.error('Lỗi khi lấy danh sách xã/phường:', err)
+    });
+  }
+
+  onWardChange(wardId: number | null) {
+    if (!wardId) return;
+    this.selectedWard = wardId;
+    console.log('Selected Ward ID:', this.selectedWard);
   }
 
   // preview ảnh
@@ -140,6 +204,13 @@ export class AddCarComponent implements OnInit {
   // submit form
   async onSubmit(f: NgForm) {
     if (f.invalid) return;
+
+    // Kết hợp các trường thành địa chỉ
+    const provinceName = this.provinces.find(p => String(p.code) === String(this.selectedProvince))?.name || '';
+    const districtName = this.districts.find(d => String(d.code) === String(this.selectedDistrict))?.name || '';
+    const wardName = this.wards.find(w => String(w.code) === String(this.selectedWard))?.name || '';
+    this.formData.address = `${this.formData.street}, ${wardName}, ${districtName}, ${provinceName}`;
+    console.log('Địa chỉ:', this.formData.address);
 
     // 1) upload ảnh
     const url = await this.uploadImage();

@@ -65,18 +65,18 @@ export class CustomerComponent implements OnInit {
   sections: Section[] = [
     {
       icon: 'fa-dollar-sign',
-      title: 'Save money',
-      content: 'We have no setup or registration fees. You are only charged when you rent a car. So get started for FREE!'
+      title: 'Tiết kiệm',
+      content: 'Chúng tôi không có phí thiết lập hoặc đăng ký. Bạn chỉ bị tính phí khi thuê xe. Vì vậy, hãy bắt đầu MIỄN PHÍ!'
     },
     {
       icon: 'fa-car',
-      title: 'Variety of cars',
-      content: 'Choose from a wide range of cars available for rent at competitive prices.'
+      title: 'Đa dạng',
+      content: 'Lựa chọn từ nhiều loại xe có sẵn để thuê với giá cạnh tranh.'
     },
     {
       icon: 'fa-thumbs-up',
-      title: 'Trusted service',
-      content: 'Our customers trust us to provide reliable and quality service every time.'
+      title: 'Tin cậy',
+      content: 'Khách hàng tin tưởng chúng tôi luôn cung cấp dịch vụ đáng tin cậy và chất lượng.'
     }
   ];
 
