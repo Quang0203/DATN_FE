@@ -52,7 +52,7 @@ export class BookingItemComponent implements OnInit {
   ];
 
   private GOOGLE_VISION_API_KEY = 'YOUR_GOOGLE_VISION_API_KEY'; // Replace with your actual API key
-  
+
   constructor(
     private http: HttpClient,
     private profileService: ProfileService,
