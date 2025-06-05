@@ -1,0 +1,36 @@
+.wallet-page {
+  background: #f8f9fa;
+  min-height: calc(100vh - 112px); /* trừ header+footer cao ~56px mỗi cái */
+  /* padding-top: 80px; */
+  margin-top: 84px;
+}
+
+/* Giữ bảng, modal đẹp theo Bootstrap */
+.modal-backdrop.show {
+  opacity: 0.5;
+}
+.modal {
+  display: block;
+  background: transparent;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.table th, .table td {
+  padding: 0.75rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9f9f9;
+}

@@ -1,0 +1,32 @@
+.payment-complete {
+  width: 400px;
+  border-radius: 24px;
+  background: #fff;
+}
+
+.status-icon {
+  font-size: 48px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.status-icon.success {
+  color: #28a745;
+}
+.status-icon.fail {
+  color: #dc3545;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.bg-light {
+  background: #f8f9fa !important;
+}
+
+button {
+  margin-right: 10px;
+}

@@ -1,0 +1,32 @@
+
+.footer {
+  background: #8080805c;
+  padding: 20px 50px 80px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  text-align: center;
+  margin-top: 10px;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+.footer-section h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

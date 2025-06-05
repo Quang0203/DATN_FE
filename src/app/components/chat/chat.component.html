@@ -1,0 +1,28 @@
+<div class="chat-button" (click)="toggleChat()">
+  <img src="/icon/Client256.png" alt="Chat" />
+</div>
+
+<div *ngIf="showChat" class="chat-container">
+  <div class="chat-header">Tư vấn thuê xe</div>
+  <div class="chat-body">
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender" class="message">
+      <div class="bubble">
+        <div [innerHTML]="msg.content"></div>
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="loading">
+      <div class="spinner"></div>
+      <span>Đang suy nghĩ...</span>
+    </div>
+  </div>
+  
+  <div class="chat-footer">
+    <input
+      type="text"
+      [(ngModel)]="input"
+      (keyup.enter)="sendChat()"
+      placeholder="Nhập tin nhắn..."
+    />
+    <button (click)="sendChat()">Gửi</button>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+    <h1>Edit Booking Details</h1>
+  
+    <form (ngSubmit)="handleSubmit()" class="form-container">
+      <div class="form-group">
+        <label>Booking Number:</label>
+        <input type="text" [(ngModel)]="bookingDetails.bookingno" name="bookingno" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Start Date and Time:</label>
+        <input type="text" [(ngModel)]="bookingDetails.startdatetime" name="startdatetime" required />
+      </div>
+  
+      <div class="form-group">
+        <label>End Date and Time:</label>
+        <input type="text" [(ngModel)]="bookingDetails.enddatetime" name="enddatetime" required />
+      </div>
+  
+      <div class="form-group">
+        <label>Drivers Information:</label>
+        <input type="text" [(ngModel)]="bookingDetails.driversinformation" name="driversinformation" />
+      </div>
+  
+      <div class="form-group">
+        <label>Payment Method:</label>
+        <input type="text" [(ngModel)]="bookingDetails.paymentmethod" name="paymentmethod" />
+      </div>
+  
+      <div class="form-group">
+        <label>Status:</label>
+        <input type="text" [(ngModel)]="bookingDetails.status" name="status" />
+      </div>
+  
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-primary">Update Booking</button>
+      </div>
+    </form>
+  </div>
+  

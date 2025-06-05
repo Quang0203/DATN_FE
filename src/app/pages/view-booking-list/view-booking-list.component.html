@@ -1,0 +1,55 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="booking-list-container">
+  <h1>Đặt xe của tôi</h1>
+  <p>Bạn có {{ totalElements || 0 }} đơn đặt xe đang hoạt động</p>
+
+  <ul *ngIf="bookings.length > 0; else noData" class="booking-list">
+    <li *ngFor="let booking of bookings" class="booking-item">
+      <div class="booking-image-container">
+        <img [src]="booking.carImage" alt="Hình ảnh xe" class="car-image" />
+      </div>
+      <div class="booking-details">
+        <h2 class="car-name">{{ booking.carName }}</h2>
+        <p class="booking-date">
+          Từ: {{ booking.startdatetime | date : "short" }} - Đến:
+          {{ booking.enddatetime | date : "short" }}
+        </p>
+        <p class="booking-status">
+          Trạng thái đặt xe:
+          <span [ngClass]="getStatusClass(booking.status)">
+            {{ booking.status }}
+          </span>
+        </p>
+        <p class="booking-number">Mã đặt xe: {{ booking.bookingno }}</p>
+      </div>
+      <div class="booking-actions">
+        <button
+          class="view-details-btn"
+          (click)="viewDetails(booking.idbooking)"
+        >
+          Xem chi tiết
+        </button>
+        <button
+          *ngIf="booking.status.toLowerCase() === 'pending deposit' || booking.status.toLowerCase() === 'confirmed' || booking.status.toLowerCase() === 'initialized'"
+          class="cancel-booking-btn"
+          (click)="confirmCancelBooking(booking.idbooking)"
+        >
+          Hủy đặt xe
+        </button>
+      </div>
+    </li>
+  </ul>
+
+  <ng-template #noData>
+    <p>Không có đơn đặt xe nào để hiển thị.</p>
+  </ng-template>
+
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="previousPage()" [disabled]="currentPage === 0">Trước</button>
+    <span>Trang {{ currentPage + 1 }} / {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Sau</button>
+  </div>
+</div>
+
+<app-footer></app-footer>

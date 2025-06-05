@@ -1,0 +1,150 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<div class="container">
+  <h2>Thêm xe mới</h2>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div class="row">
+      <div class="col-6">
+        <label>Tên xe</label>
+        <input name="name" class="form-control" [(ngModel)]="formData.name" required>
+      </div>
+      <div class="col-6">
+        <label>Hãng xe</label>
+        <input name="brand" class="form-control" [(ngModel)]="formData.brand" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label>Dòng/Phiên bản</label>
+        <input name="model" class="form-control" [(ngModel)]="formData.model" required>
+      </div>
+      <div class="col-6">
+        <label>Màu sắc</label>
+        <input name="color" class="form-control" [(ngModel)]="formData.color" required>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6"><label>Số chỗ ngồi</label><input type="number" name="numberofseats" class="form-control" [(ngModel)]="formData.numberofseats" required></div>
+      <div class="col-6"><label>Năm sản xuất</label><input type="number" name="productionyears" class="form-control" [(ngModel)]="formData.productionyears" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Hộp số</label><input name="tranmissiontype" class="form-control" [(ngModel)]="formData.tranmissiontype" required></div>
+      <div class="col-6"><label>Loại nhiên liệu</label><input name="fueltype" class="form-control" [(ngModel)]="formData.fueltype" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Số km đã đi</label><input type="number" name="mileage" class="form-control" [(ngModel)]="formData.mileage" required></div>
+      <div class="col-6"><label>Mức tiêu thụ nhiên liệu (L/100 km)</label><input name="fuelconsumption" class="form-control" [(ngModel)]="formData.fuelconsumption" required></div>
+    </div>
+    <div class="row">
+      <div class="col-6"><label>Giá cơ bản(VNĐ/ngày)</label><input type="number" name="baseprice" class="form-control" [(ngModel)]="formData.baseprice" required></div>
+      <div class="col-6"><label>Tiền cọc(VNĐ)</label><input type="number" name="deposite" class="form-control" [(ngModel)]="formData.deposite" required></div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-12"><label>Địa điểm nhận/trả xe</label><input name="address" class="form-control" [(ngModel)]="formData.address" required></div>
+    </div> -->
+    <div class="row">
+      <div class="col-12">
+        <label>Mô tả</label>
+        <textarea name="descripton" class="form-control" [(ngModel)]="formData.descripton" required rows="4"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="province">Tỉnh/Thành phố:</label>
+        <select
+          id="province"
+          class="form-control"
+          name="province"
+          [(ngModel)]="selectedProvince"
+          (change)="selectedProvince && onProvinceChange(selectedProvince)"
+          required
+        >
+          <option value="" disabled selected>Chọn tỉnh/thành phố</option>
+          <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-6">
+        <label for="district">Quận/Huyện:</label>
+        <select
+          id="district"
+          class="form-control"
+          name="district"
+          [(ngModel)]="selectedDistrict"
+          (change)="selectedDistrict && onDistrictChange(selectedDistrict)"
+          [disabled]="!selectedProvince"
+          required
+        >
+          <option value="" disabled selected>Chọn quận/huyện</option>
+          <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="ward">Phường/Xã:</label>
+        <select
+          id="ward"
+          class="form-control"
+          name="ward"
+          [(ngModel)]="selectedWard"
+          (change)="onWardChange(selectedWard)"
+          [disabled]="!selectedDistrict"
+          required
+        >
+          <option value="" disabled selected>Chọn phường/xã</option>
+          <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+        </select>
+      </div>
+
+      <div class="col-6">
+        <label for="street">Đường/Số nhà:</label>
+        <input
+          id="street"
+          class="form-control"
+          type="text"
+          name="street"
+          [(ngModel)]="formData.street"
+          placeholder="Nhập đường/số nhà"
+          required
+        />
+      </div>
+    </div>
+
+    <section class="upload-section">
+      <h4>Tải hình ảnh xe</h4>
+      <input type="file" (change)="onImageChange($event)" accept="image/*">
+      <img *ngIf="preview" [src]="preview" class="preview">
+      <div *ngIf="loading" class="loading">Đang xử lý...</div>
+    </section>
+
+    <section class="terms-section">
+      <h4>Nội quy sử dụng</h4>
+      <label><input type="checkbox" name="noSmoking" [(ngModel)]="termOfUse.noSmoking"> Không hút thuốc</label>
+      <label><input type="checkbox" name="noPet" [(ngModel)]="termOfUse.noPet"> Không thú cưng</label>
+      <label><input type="checkbox" name="noFoodInCar" [(ngModel)]="termOfUse.noFoodInCar"> Không ăn uống</label>
+      <label><input type="checkbox" name="other" [(ngModel)]="termOfUse.other"> Khác</label>
+    </section>
+
+    <section class="additional-section">
+      <h4>Tiện ích & Trang bị thêm</h4>
+      <label><input type="checkbox" name="bluetooth" [(ngModel)]="additionalFunctions.bluetooth"> Bluetooth</label>
+      <label><input type="checkbox" name="gps" [(ngModel)]="additionalFunctions.gps"> GPS</label>
+      <label><input type="checkbox" name="camera" [(ngModel)]="additionalFunctions.camera"> Camera</label>
+      <label><input type="checkbox" name="sunroof" [(ngModel)]="additionalFunctions.sunroof"> Cửa sổ trời</label>
+      <label><input type="checkbox" name="childLock" [(ngModel)]="additionalFunctions.childLock"> Khóa trẻ em</label>
+      <label><input type="checkbox" name="childSeat" [(ngModel)]="additionalFunctions.childSeat"> Ghế trẻ em</label>
+      <label><input type="checkbox" name="dvd" [(ngModel)]="additionalFunctions.dvd"> DVD</label>
+      <label><input type="checkbox" name="usb" [(ngModel)]="additionalFunctions.usb"> USB</label>
+    </section>
+
+    <button type="submit" class="btn btn-primary w-100">Thêm</button>
+    <p class="result" *ngIf="res">{{ res }}</p>
+  </form>
+</div>
+
+<app-footer></app-footer>

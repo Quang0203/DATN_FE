@@ -1,0 +1,12 @@
+<app-navbar-owner [name]="user?.name" [role]="'CUSTOMER'"></app-navbar-owner>
+<div class="paid-deposite">
+  <h2>Xác nhận thanh toán</h2>
+  <p>Tên: {{ user?.name }}</p>
+  <p>Wallet: {{ wallet }}$</p>
+  <p>Status: {{ booking?.status }}</p>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <button type="button" (click)="location.back()">BACK</button>
+    <button type="submit">NEXT</button>
+  </form>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>

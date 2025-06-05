@@ -1,0 +1,25 @@
+<div class="list-car-container">
+  <div class="list-car-row">
+    <div *ngFor="let car of pagedCars" class="list-car-item">
+      <a [routerLink]="['/view-car', car.idcar]">
+        <img [src]="car.images" [alt]="car.name" class="list-car-img" />
+        <div class="list-car-info">
+          <p>{{ car.name }}</p>
+          <button class="list-car-btn">Thuê ngay!</button>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="pagination" *ngIf="totalPages > 1">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Trước</button>
+    <button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      (click)="goToPage(i + 1)"
+      [class.active]="currentPage === i + 1"
+      style="margin: 0 4px;"
+    >
+      {{ i + 1 }}
+    </button>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Sau</button>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+.container {
+  max-width: 1200px;
+  margin: 80px auto 0px;
+  padding: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.col-6 {
+  flex: 1;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.upload-section,
+.terms-section,
+.additional-section {
+  margin: 2rem 0;
+}
+
+.preview {
+  display: block;
+  max-width: 100%;
+  margin-top: 1rem;
+}
+
+.loading {
+  margin-top: 0.5rem;
+  color: #007bff;
+}
+
+.terms-section label,
+.additional-section label {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.result {
+  margin-top: 1rem;
+  color: green;
+}

@@ -1,0 +1,18 @@
+<app-navbar-owner
+  *ngIf="userName"
+  [name]="userName"
+  [role]="role">
+</app-navbar-owner>
+
+<div
+  class="container d-flex align-items-center justify-content-center flex-column border-0"
+  style="min-height: calc(100vh - 60px); margin: 84px auto 0px;"
+>
+  <h2>Tiến hành đặt xe</h2>
+  <div *ngIf="car; else loading">
+    <app-booking-item [car]="car"></app-booking-item>
+  </div>
+  <ng-template #loading>
+    <p>Đang tải thông tin xe...</p>
+  </ng-template>
+</div>

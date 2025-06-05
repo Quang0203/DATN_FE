@@ -1,0 +1,170 @@
+.img-fluid { width: 100%; }
+
+.star-rating {
+  display: inline-block;
+}
+
+.star-container {
+  position: relative;
+  display: inline-block;
+  width: 20px; /* Kích thước của mỗi sao */
+  height: 20px;
+}
+
+.star-container .far.fa-star {
+  color: #ddd; /* Màu xám cho sao trống */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.filled-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.filled-overlay .fas.fa-star {
+  color: #f8ce0b; /* Màu vàng cho sao được tô */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Status styling */
+.status-available {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.status-booked {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.status-stopped {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Booked periods styling */
+.booked-periods {
+  margin-top: 15px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+}
+
+.booked-title {
+  color: #856404;
+  font-size: 16px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.booking-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+}
+
+.booking-period {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.booking-period i {
+  margin-right: 5px;
+  color: #6c757d;
+}
+
+.booking-status {
+  padding: 8px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-confirmed {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-in-progress {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+/* Alert styling */
+.alert {
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+/* Custom datetime input styles */
+.datetime-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.datetime-display {
+  cursor: pointer;
+  background-color: white;
+  color: #333;
+}
+
+.datetime-display:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.datetime-display::placeholder {
+  color: #6c757d;
+  opacity: 1;
+}
+
+.datetime-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+  /* Không cho click khi chưa focus */
+  pointer-events: none; 
+}

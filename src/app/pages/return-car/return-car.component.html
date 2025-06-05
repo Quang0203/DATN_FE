@@ -1,0 +1,31 @@
+<div class="container my-5">
+    <div *ngIf="booking?.status; else notFound">
+      <h2 class="my-4">Xác nhận trả xe</h2>
+      <div class="row">
+        <div class="col-6">
+          <p>Tên tài khoản: {{ user.name }}</p>
+          <p class="text-success">Ví tiền: {{ wallet | number }}₫</p>
+          <p>Trạng thái: {{ booking.status }}</p>
+        </div>
+        <div class="col-6">
+          <p>Thông tin phiếu thuê</p>
+          <p>Thời gian nhận: {{ booking.startdatetime }}</p>
+          <p>Thời gian trả: {{ booking.enddatetime }}</p>
+        </div>
+      </div>
+  
+      <form (ngSubmit)="handleSubmit()">
+        <div class="d-flex justify-content-between mt-4">
+          <button type="button" class="btn btn-secondary" (click)="goBack()">Quay lại</button>
+          <button type="submit" class="btn btn-primary">Tiếp</button>
+        </div>
+      </form>
+    </div>
+  
+    <ng-template #notFound>
+      <h2>404 NOT FOUND</h2>
+    </ng-template>
+  
+    <div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div>
+  </div>
+  

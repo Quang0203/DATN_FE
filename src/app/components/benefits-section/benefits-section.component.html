@@ -1,0 +1,12 @@
+<section class="benefits">
+  <h1>Bạn có xe cho thuê? Đừng bỏ lỡ lợi ích của bạn</h1>
+  <div class="benefits-container">
+    <div class="benefit" *ngFor="let b of benefits">
+      <div class="benefit-ic">
+        <img [src]="b.icon" [alt]="b.alt" class="benefit-icon" />
+        <h3>{{ b.title }}</h3>
+      </div>
+      <p>{{ b.description }}</p>
+    </div>
+  </div>
+</section>

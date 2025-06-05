@@ -1,0 +1,200 @@
+<app-navbar></app-navbar>
+
+<div class="form-container">
+  <div class="card p-4">
+    <h2 class="mb-4 text-center">Đăng ký</h2>
+    <form (ngSubmit)="handleRegister()" #f="ngForm">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Họ & tên<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              name="name"
+              [(ngModel)]="registerData.name"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Ngày sinh<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="date"
+              name="dateofbirth"
+              [(ngModel)]="registerData.dateofbirth"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">CMND/CCCD<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              name="nationalidno"
+              [(ngModel)]="registerData.nationalidno"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Email<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="email"
+              name="email"
+              [(ngModel)]="registerData.email"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Số điện thoại<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              name="phoneno"
+              [(ngModel)]="registerData.phoneno"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Tỉnh/Thành phố<span class="required">*</span></label>
+            <select
+              class="form-select"
+              name="province"
+              [(ngModel)]="selectedProvince"
+              (change)="selectedProvince && onProvinceChange(selectedProvince)"
+              required
+            >
+              <option value="" disabled selected>Chọn tỉnh/thành phố</option>
+              <option *ngFor="let province of provinces" [value]="province.code">{{ province.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Quận/Huyện<span class="required">*</span></label>
+            <select
+              class="form-select"
+              name="district"
+              [(ngModel)]="selectedDistrict"
+              (change)="selectedDistrict && onDistrictChange(selectedDistrict)"
+              required
+              [disabled]="!selectedProvince"
+            >
+              <option value="" disabled selected>Chọn quận/huyện</option>
+              <option *ngFor="let district of districts" [value]="district.code">{{ district.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Phường/Xã<span class="required">*</span></label>
+            <select
+              class="form-select"
+              name="ward"
+              [(ngModel)]="selectedWard"
+              (change)="onWardChange(selectedWard)"
+              required
+              [disabled]="!selectedDistrict"
+            >
+              <option value="" disabled selected>Chọn phường/xã</option>
+              <option *ngFor="let ward of wards" [value]="ward.code">{{ ward.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Đường/Số nhà<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="text"
+              name="street"
+              [(ngModel)]="registerData.street"
+              placeholder="Nhập đường/số nhà"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Bằng lái xe (Ảnh)<span class="required">*</span></label>
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              class="form-control"
+              required
+              [disabled]="isUploading"
+            />
+            <div *ngIf="isUploading" class="loading">Đang upload...</div>
+            <div *ngIf="drivingLicensePreview" class="mt-2">
+              <img [src]="drivingLicensePreview" alt="Ảnh bằng lái" style="max-width: 100%; max-height: 200px; border-radius: 8px; border: 1px solid #ccc;">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label class="form-label">Mật khẩu<span class="required">*</span></label>
+            <input
+              class="form-control"
+              type="password"
+              name="password"
+              [(ngModel)]="registerData.password"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Vai trò</label>
+        <select
+          class="form-select"
+          name="role"
+          [(ngModel)]="registerData.role"
+        >
+          <option value="CUSTOMER">Khách hàng</option>
+          <option value="CAROWNER">Chủ xe</option>
+        </select>
+      </div>
+
+      <button
+        class="btn btn-primary w-100 mb-2"
+        [disabled]="f.invalid || isUploading"
+        type="submit"
+      >
+        Đăng ký
+      </button>
+      <button
+        class="btn btn-link w-100"
+        type="button"
+        (click)="goToLogin()"
+      >
+        Đã có tài khoản? Đăng nhập
+      </button>
+    </form>
+
+    <p
+      class="text-center mt-3"
+      [ngClass]="{'text-success': message.includes('thành công'), 'text-danger': !message.includes('thành công')}"
+      *ngIf="message"
+    >
+      {{ message }}
+    </p>
+  </div>
+</div>

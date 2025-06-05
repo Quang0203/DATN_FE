@@ -1,0 +1,201 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- PHẦN THÔNG TIN XE -->
+    <div class="col-md-6">
+      <h1 class="text-center">Thuê xe ngay hôm nay!</h1>
+      <div *ngIf="car" class="card mb-4">
+        <img
+          [src]="car.images"
+          [alt]="car.name"
+          class="card-img-top img-fluid"
+        />
+        <div class="card-body text-center">
+          <h2 class="card-title">{{ car.name }}</h2>
+          <p class="card-text">
+            Đánh giá:
+            <span class="star-rating">
+              <ng-container *ngFor="let star of [0,1,2,3,4]">
+                <span class="star-container">
+                  <i class="far fa-star"></i>
+                  <span class="filled-overlay" [style.width]="getFilledWidth(star, averageRating)">
+                    <i class="fas fa-star"></i>
+                  </span>
+                </span>
+              </ng-container>
+            </span>
+            ({{ averageRating ? averageRating.toFixed(1) : 'Chưa có đánh giá' }})
+          </p>
+          <p class="card-text">
+            Giá thuê:
+            <strong>{{ car.baseprice | number:'1.0-0'}} VND/ngày</strong>
+          </p>
+          <p class="card-text">
+            Địa điểm nhận xe:
+            <strong>{{ car.address }}</strong>
+          </p>
+          <p class="card-text">
+            Trạng thái:
+            <strong
+              [class.text-success]="car.status === 'Available'"
+              [class.text-danger]="car.status !== 'Available'"
+              >{{ statusMap[car.status] || car.status }}</strong
+            >
+          </p>
+          <!-- Hiển thị khoảng thời gian đã đặt nếu xe có trạng thái "Booked" -->
+        <div *ngIf="car.status === 'Booked' && activeBookings.length > 0" class="booked-periods">
+          <h4 class="booked-title">Khoảng thời gian đã được đặt:</h4>
+          <div class="booking-list">
+            <div *ngFor="let booking of activeBookings" class="booking-item">
+              <div class="booking-period">
+                <i class="fas fa-calendar-alt"></i>
+                <strong>Từ:</strong> {{ formatDateTime(booking.startdatetime) }}
+                <br>
+                <i class="fas fa-calendar-check"></i>
+                <strong>Đến:</strong> {{ formatDateTime(booking.enddatetime) }}
+              </div>
+              <div class="booking-status" [ngClass]="'status-' + booking.status?.toLowerCase()">
+                {{ booking.status }}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẦN FORM BOOKING -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Thông tin thuê xe</h3>
+          
+          <!-- Thông báo lỗi -->
+          <div *ngIf="errorMessage" class="alert alert-warning">
+            {{ errorMessage }}
+          </div>
+          
+          <form (ngSubmit)="onSubmit()">
+            <!-- Start datetime -->
+            <div class="mb-3">
+              <label for="startdatetime" class="form-label">Thời gian nhận xe:</label>
+              <div class="datetime-input-wrapper">
+                <!-- Input hiển thị với placeholder -->
+                <input
+                  type="text"
+                  [value]="startDateTimeDisplay"
+                  placeholder="Chọn ngày và giờ nhận xe"
+                  class="form-control datetime-display"
+                  (click)="onStartDisplayClick()"
+                  readonly
+                />
+                <!-- Input datetime-local ẩn -->
+                <input
+                  type="datetime-local"
+                  id="startdatetime"
+                  name="startdatetime"
+                  [(ngModel)]="formData['startdatetime']"
+                  [min]="minDateTime"
+                  (change)="onStartDateTimeChange()"
+                  (focus)="onStartDateTimeFocus()"
+                  (blur)="onStartDateTimeBlur()"
+                  class="datetime-hidden"
+                />
+              </div>
+            </div>
+
+            <!-- End datetime -->
+            <div class="mb-3">
+              <label for="enddatetime" class="form-label">Thời gian trả xe:</label>
+              <div class="datetime-input-wrapper">
+                <!-- Input hiển thị với placeholder -->
+                <input
+                  type="text"
+                  [value]="endDateTimeDisplay"
+                  placeholder="Chọn ngày và giờ trả xe"
+                  class="form-control datetime-display"
+                  (click)="onEndDisplayClick()"
+                  readonly
+                />
+                <!-- Input datetime-local ẩn -->
+                <input
+                  type="datetime-local"
+                  id="enddatetime"
+                  name="enddatetime"
+                  [(ngModel)]="formData['enddatetime']"
+                  [min]="formData['startdatetime'] || minDateTime"
+                  (change)="onEndDateTimeChange()"
+                  (focus)="onEndDateTimeFocus()"
+                  (blur)="onEndDateTimeBlur()"
+                  class="datetime-hidden"
+                />
+              </div>
+            </div>
+
+            <!-- Payment methods -->
+            <h4 class="mb-3">Phương thức thanh toán</h4>
+            <div
+              class="form-check mb-2"
+              *ngFor="let method of paymentMethods"
+            >
+            <!-- Gửi giá trị tiếng Anh method.value-->
+              <input
+                class="form-check-input"
+                type="radio"
+                name="paymentmethod"
+                [id]="method.value"
+                [(ngModel)]="formData['paymentmethod']"
+                [value]="method.value" 
+                required
+              />
+              <label class="form-check-label" [for]="method.value">{{ method.label }}</label> <!-- Hiển thị tiếng Việt -->
+            </div>
+
+            <!-- Driver's info -->
+            <h4 class="mb-3">Thông tin người thuê</h4>
+            <div class="mb-3" *ngFor="let f of ['name','phoneno','email']">
+              <label [for]="f" class="form-label">
+                {{
+                  f === 'name'
+                    ? 'Họ tên'
+                    : f === 'phoneno'
+                    ? 'Số điện thoại'
+                    : 'Địa chỉ email'
+                }}
+              </label>
+              <input
+                [type]="f === 'email' ? 'email' : 'text'"
+                class="form-control"
+                [name]="f"
+                [id]="f"
+                [(ngModel)]="formData[f]"
+                required
+              />
+            </div>
+
+            <!-- Hiển thị ảnh bằng lái xe -->
+            <div class="mb-3">
+              <label class="form-label">Giấy phép lái xe</label>
+              <div *ngIf="formData['drivinglicense']">
+                <img [src]="formData['drivinglicense']" alt="Ảnh bằng lái" class="img-fluid" style="max-width: 300px; border-radius: 8px; border: 1px solid #ccc;" />
+              </div>
+              <div *ngIf="!formData['drivinglicense']" class="text-muted">
+                Không có ảnh bằng lái xe
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="goBack()"
+              >
+                Quay lại
+              </button>
+              <button type="submit" class="btn btn-primary">Xác nhận</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

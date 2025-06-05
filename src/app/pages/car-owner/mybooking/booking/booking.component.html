@@ -1,0 +1,19 @@
+<div *ngIf="car" class="booking-card">
+  <div class="row justify-between">
+    <div class="col-6 d-flex gap-2">
+      <img [src]="car.images" alt="" class="car-img" />
+      <div class="specs">
+        <p>Tên xe: {{ car.name }}</p>
+        <p>Tiền cọc: {{ car.deposite | number }} VND</p>
+        <p>Giá cơ bản: {{ car.baseprice | number }}/ngày</p>
+        <p>Trạng thái: {{ statusMap[status] || status }}</p>
+      </div>
+    </div>
+    <div class="col-5" *ngIf="status === 'Pending Deposit'">
+      <button class="btn btn-primary" (click)="confirmDeposit()">Xác nhận</button>
+    </div>
+    <div class="col-5" *ngIf="status === 'Pending Payment'">
+      <button class="btn btn-primary" (click)="confirmPayment()">Xác nhận và hoàn tiền cọc</button>
+    </div>
+  </div>
+</div>

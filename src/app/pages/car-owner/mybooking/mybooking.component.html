@@ -1,0 +1,18 @@
+<app-navbar-owner [name]="userName" [role]="role"></app-navbar-owner>
+
+<main class="container d-flex w-100">
+  <div class="row">
+    <app-booking
+      *ngFor="let b of bookings"
+      [booking]="b">
+    </app-booking>
+  </div>
+</main>
+
+<div class="pagination" *ngIf="totalPages > 1">
+  <button (click)="previousPage()" [disabled]="currentPage === 0">Trước</button>
+  <span>Trang {{ currentPage + 1 }} / {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Sau</button>
+</div>
+
+<app-footer></app-footer>

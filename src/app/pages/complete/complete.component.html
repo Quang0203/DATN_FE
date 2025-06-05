@@ -1,0 +1,29 @@
+<div class="container my-4" style="max-width: 60rem">
+    <ng-container *ngIf="booking?.status === 'Completed' || booking?.status === 'Cancelled'; else notFound">
+      <h2 class="mb-4">Tình trạng phiếu</h2>
+      <div class="row">
+        <div class="col-6">
+          <p><strong>Tên tài khoản:</strong> {{ user?.name }}</p>
+          <p class="text-success"><strong>Wallet:</strong> {{ user?.wallet }}$</p>
+          <p><strong>STATUS:</strong> {{ booking?.status }}</p>
+        </div>
+        <div class="col-6">
+          <p><strong>Thông tin phiếu thuê</strong></p>
+          <p><strong>Start:</strong> {{ booking?.startdatetime }}</p>
+          <p><strong>End:</strong>   {{ booking?.enddatetime }}</p>
+          <ng-container *ngIf="car">
+            <img 
+              [src]="car.car.images" 
+              alt="{{ car.car.name }}" 
+              class="img-fluid mt-2" 
+              style="max-width: 200px; max-height:200px"
+            />
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #notFound>
+      <h2>404 NOT FOUND</h2>
+    </ng-template>
+  </div>
+  

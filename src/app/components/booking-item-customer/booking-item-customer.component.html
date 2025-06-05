@@ -1,0 +1,15 @@
+<div class="booking-item">
+    <a [routerLink]="['/customer/booking/book', booking.idbooking]" class="booking-link row align-items-center">
+      <div class="col-6">
+        <img *ngIf="car" [src]="car.images" class="img-fluid" alt="Car image">
+      </div>
+      <div class="col-6" *ngIf="car">
+        <p>Name: {{ car.name }}</p>
+        <p>Start: {{ booking.startdatetime }}</p>
+        <p>End: {{ booking.enddatetime }}</p>
+        <p>Status: {{ statusMap[booking.status] }}</p>
+        <div class="btn btn-primary w-100">Xem chi tiết</div>
+      </div>
+    </a>
+  </div>
+  

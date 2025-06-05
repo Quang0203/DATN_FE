@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  margin-top: 84px;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.card {
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.row {
+  --bs-gutter-x: 1.5rem;
+}
+
+.col-md-6 {
+  flex: 0 0 auto;
+  width: 50%;
+}
+
+.required {
+  color: red;
+}
+
+.loading {
+  color: #007bff;
+  font-size: 14px;
+  margin-top: 5px;
+}

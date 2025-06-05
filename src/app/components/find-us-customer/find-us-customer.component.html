@@ -1,0 +1,15 @@
+<section id="find-us" class="find-us">
+  <h2 class="find-us__title">Bạn có thể thấy chúng tôi ở đâu</h2>
+  <div class="find-us__grid">
+    <div
+      class="find-us__card"
+      *ngFor="let item of carData"
+      [ngStyle]="{'background-image': 'url(' + item.image + ')'}"
+    >
+      <div class="find-us__overlay">
+        <h3 class="find-us__location">{{ item.address }}</h3>
+        <p class="find-us__count">{{ item.car_count }} chiếc xe</p>
+      </div>
+    </div>
+  </div>
+</section>

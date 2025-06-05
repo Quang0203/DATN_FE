@@ -1,0 +1,27 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <h2>Đánh giá bạn đồng hành của bạn trên chuyến đi</h2>
+      <p>Bạn có thích chuyến đi của mình trên chiếc xe không? Hãy cho chúng tôi biết suy nghĩ của bạn.</p>
+  
+      <div class="stars">
+        <span
+          *ngFor="let __ of [0,1,2,3,4]; let i = index"
+          class="star"
+          [class.selected]="i < rate"
+          (click)="handleStarClick(i)"
+        >★</span>
+      </div>
+  
+      <textarea
+        class="review-textarea"
+        placeholder="Write your review here..."
+        [(ngModel)]="content"
+      ></textarea>
+  
+      <div class="modal-buttons">
+        <button class="btn btn-secondary" (click)="close.emit()">Bỏ qua</button>
+        <button class="btn btn-primary" (click)="handleSendReview()">Gửi</button>
+      </div>
+    </div>
+  </div>
+  

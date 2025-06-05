@@ -1,0 +1,68 @@
+.people-say {
+  background-color: rgba(128, 128, 128, 0.35);
+  padding: 40px 20px;
+}
+
+.people-say__title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.people-say__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px; /* khoảng cách giữa mỗi item */
+}
+
+.people-say__item {
+  display: flex;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  width: calc(50% - 30px); /* 2 cột, trừ gap */
+  max-width: 400px;
+}
+
+.people-say__avatar {
+  flex: 0 0 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.people-say__avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.people-say__body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.people-say__name {
+  font-weight: bold;
+  margin: 0 0 8px;
+}
+
+.people-say__content {
+  margin: 0 0 6px;
+}
+
+.people-say__rating {
+  margin: 0 0 4px;
+  color: #f5a623; /* vàng cho star */
+}
+
+.people-say__date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}

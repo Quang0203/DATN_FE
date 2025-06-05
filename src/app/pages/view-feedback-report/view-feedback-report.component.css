@@ -1,0 +1,123 @@
+.report-container {  
+  width: 80%;
+  margin: 84px auto 0px;
+  font-family: Arial, sans-serif;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: #93a1fd;
+  margin: 0 5px;
+}
+
+.tab.active {
+  background-color: #5480e7;
+  border-bottom: none;
+  font-weight: bold;
+}
+
+.average-rating {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.rating-value {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+}
+
+.star {
+  font-size: 24px;
+  color: gold;
+  margin: 0 2px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.feedback-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.feedback-item {
+  display: flex;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.user-info {
+  margin-right: 20px;
+  text-align: center;
+}
+
+.user-id {
+  font-weight: bold;
+}
+
+.feedback-content {
+  flex: 1;
+}
+
+.feedback-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.feedback-stars {
+  display: flex;
+  align-items: center;
+}
+
+.feedback-date {
+  color: #999;
+}
+
+.car-info {
+  margin-top: 10px;
+}
+
+.car-details {
+  display: flex;
+}
+
+.car-image {
+  width: 100px;
+  height: 100px;
+  background-color: #ddd;
+  margin-right: 20px;
+}
+
+.car-description {
+  flex: 1;
+}
+
+.car-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.car-dates {
+  font-size: 12px;
+  color: #666;
+}

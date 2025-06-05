@@ -1,0 +1,182 @@
+.chat-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: #0b84a5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.chat-button:hover {
+  transform: scale(1.1);
+}
+
+.chat-button img {
+  width: 32px;
+  height: 32px;
+}
+
+.chat-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 800px;
+  max-height: 530px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.chat-header {
+  background: #0b84a5;
+  color: #fff;
+  padding: 10px;
+  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.chat-body {
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
+  background: #f7f7f7;
+}
+
+.chat-body .message {
+  display: flex;
+  margin: 5px 0;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.chat-body .user {
+  justify-content: flex-end;
+}
+
+.chat-body .bot {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.user .bubble {
+  background: #dcf8c6;
+  color: #000;
+  border-bottom-right-radius: 0;
+}
+
+.bot .bubble {
+  background: #e5e5ea;
+  color: #000;
+  border-bottom-left-radius: 0;
+}
+
+.chat-footer {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.chat-footer input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.chat-footer button {
+  margin-left: 5px;
+  padding: 8px 12px;
+  background: #0b84a5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bubble a {
+  color: #0645AD;
+  text-decoration: underline;
+  display: inline-block;
+  margin: 4px 0;
+}
+
+.chat-img {
+  max-width: 100%;
+  border-radius: 4px;
+  margin: 5px 0;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: #fff;
+  border-radius: 5px;
+  margin: 10px auto;
+  width: fit-content;
+}
+
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #0b84a5;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+}
+
+.car-link {
+  display: inline-block;
+  padding: 6px 12px;
+  background-color: #0b84a5;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.car-link:hover {
+  background-color: #066b87;
+}
+
+.bubble a {
+  color: #0645AD;
+  text-decoration: underline;
+  display: inline-block;
+  margin: 4px 0;
+}
+.bubble a:hover {
+  text-decoration: none;
+  color: #0b84a5;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
