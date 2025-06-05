@@ -29,8 +29,6 @@ export class BookingItemComponent implements OnInit {
   loading = true;
   errorMessage = '';
   minDateTime: string = '';
-
-  // Hiển thị placeholder cho datetime inputs
   startDateTimeDisplay: string = '';
   endDateTimeDisplay: string = '';
   isStartDateTimeFocused: boolean = false;
@@ -39,29 +37,28 @@ export class BookingItemComponent implements OnInit {
   disableRanges: Array<{ start: string; end: string }> = [];
   user: any = null;
   averageRating: number = 0;
-  bookings: any[] = []; // Danh sách booking của xe
+  bookings: any[] = [];
 
-  // Ánh xạ status sang tiếng Việt
   statusMap: { [key: string]: string } = {
     'Available': 'Có sẵn',
     'Booked': 'Đã đặt',
     'Stopped': 'Dừng cho thuê'
   };
 
-  // Danh sách phương thức thanh toán với ánh xạ tiếng Anh và tiếng Việt
   paymentMethods: Array<{ value: string; label: string }> = [
     { value: 'My wallet', label: 'Ví tiền' },
     { value: 'Cash', label: 'Tiền mặt' },
     { value: 'Bank transfer', label: 'Chuyển khoản' }
   ];
 
+  private GOOGLE_VISION_API_KEY = 'YOUR_GOOGLE_VISION_API_KEY'; // Replace with your actual API key
+  
   constructor(
     private http: HttpClient,
     private profileService: ProfileService,
     private bookingSvc: BookingService,
     private router: Router
   ) {
-    // Thiết lập thời gian tối thiểu là thời điểm hiện tại
     this.setMinDateTime();
   }
 
@@ -75,7 +72,6 @@ export class BookingItemComponent implements OnInit {
 
   private setMinDateTime(): void {
     const now = new Date();
-    // Định dạng datetime-local cần format: YYYY-MM-DDTHH:mm
     this.minDateTime = now.toISOString().slice(0, 16);
   }
 
@@ -129,7 +125,15 @@ export class BookingItemComponent implements OnInit {
 
   private loadUser(): void {
     this.profileService.getProfile().subscribe({
-      next: u => this.user = u,
+      next: u => {
+        this.user = u;
+        this.formData['name'] = u.name;
+        this.formData['email'] = u.email;
+        this.formData['phoneno'] = u.phoneno;
+        this.formData['drivinglicense'] = u.drivinglicense;
+        console.log('User profile:', this.user);
+        console.log('Form data:', this.formData);
+      },
       error: err => console.error('Load user error:', err)
     });
   }
@@ -158,7 +162,7 @@ export class BookingItemComponent implements OnInit {
     Promise.all([
       this.bookingSvc.getBookingsByCarId(this.car.idcar).toPromise()
     ])
-      .then(([ bookingsRes]) => {
+      .then(([bookingsRes]) => {
         this.bookings = (bookingsRes as any)?.result || [];
       })
       .catch(error => {
@@ -177,20 +181,17 @@ export class BookingItemComponent implements OnInit {
     );
   }
 
-  // Lọc booking đang active (chưa hoàn thành hoặc bị hủy)
   get activeBookings() {
-    return this.bookings.filter(booking => 
-      booking.status && 
+    return this.bookings.filter(booking =>
+      booking.status &&
       !['Completed', 'Reported', 'Cancelled'].includes(booking.status)
     );
   }
 
-  // Xử lý khi focus vào start datetime
   onStartDateTimeFocus(): void {
     this.isStartDateTimeFocused = true;
   }
 
-  // Xử lý khi blur khỏi start datetime
   onStartDateTimeBlur(): void {
     this.isStartDateTimeFocused = false;
     if (this.formData['startdatetime']) {
@@ -198,33 +199,31 @@ export class BookingItemComponent implements OnInit {
     }
   }
 
-  // Phương thức để xử lý khi thay đổi thời gian bắt đầu
   onStartDateTimeChange(): void {
+    if (this.isDisabled(this.formData['startdatetime'])) {
+      this.errorMessage = 'Thời gian này không khả dụng!';
+      this.formData['startdatetime'] = '';
+      this.startDateTimeDisplay = '';
+      return;
+    }
     if (this.formData['startdatetime']) {
       this.startDateTimeDisplay = this.formatDateTimeForDisplay(this.formData['startdatetime']);
     }
-
-    // Nếu thời gian kết thúc đã được chọn và nhỏ hơn hoặc bằng thời gian bắt đầu mới
     if (this.formData['enddatetime'] && this.isEndDateTimeBeforeStartDateTime()) {
-      // Tự động đặt thời gian kết thúc là 1 giờ sau thời gian bắt đầu
       const startDate = new Date(this.formData['startdatetime']);
       startDate.setHours(startDate.getHours() + 1);
       this.formData['enddatetime'] = startDate.toISOString().slice(0, 16);
       this.endDateTimeDisplay = this.formatDateTimeForDisplay(this.formData['enddatetime']);
     }
-    
-    // Xóa thông báo lỗi khi người dùng thay đổi
     if (this.errorMessage) {
       this.errorMessage = '';
     }
   }
 
-  // Xử lý khi focus vào end datetime
   onEndDateTimeFocus(): void {
     this.isEndDateTimeFocused = true;
   }
 
-  // Xử lý khi blur khỏi end datetime
   onEndDateTimeBlur(): void {
     this.isEndDateTimeFocused = false;
     if (this.formData['enddatetime']) {
@@ -232,26 +231,26 @@ export class BookingItemComponent implements OnInit {
     }
   }
 
-  // Phương thức để xử lý khi thay đổi thời gian kết thúc
   onEndDateTimeChange(): void {
+    if (this.isDisabled(this.formData['enddatetime'])) {
+      this.errorMessage = 'Thời gian này không khả dụng!';
+      this.formData['enddatetime'] = '';
+      this.endDateTimeDisplay = '';
+      return;
+    }
     if (this.formData['enddatetime']) {
       this.endDateTimeDisplay = this.formatDateTimeForDisplay(this.formData['enddatetime']);
     }
-
-    // Xóa thông báo lỗi khi người dùng thay đổi
     if (this.errorMessage) {
       this.errorMessage = '';
     }
   }
 
-  // Xử lý khi click vào display input
   onStartDisplayClick(): void {
     const hiddenInput = document.getElementById('startdatetime') as HTMLInputElement;
     if (hiddenInput) {
-      if ('showPicker' in hiddenInput) {
-        // Hiện picker nếu trình duyệt hỗ trợ
-        (hiddenInput as any).showPicker();
-      } else {
+      if ('showPicker' in hiddenInput) (hiddenInput as any).showPicker();
+      else {
         (hiddenInput as HTMLInputElement).focus();
         (hiddenInput as HTMLInputElement).click();
       }
@@ -261,65 +260,131 @@ export class BookingItemComponent implements OnInit {
   onEndDisplayClick(): void {
     const hiddenInput = document.getElementById('enddatetime') as HTMLInputElement;
     if (hiddenInput) {
-      if ('showPicker' in hiddenInput) {
-        (hiddenInput as any).showPicker();
-      } else {
+      if ('showPicker' in hiddenInput) (hiddenInput as any).showPicker();
+      else {
         (hiddenInput as HTMLInputElement).focus();
         (hiddenInput as HTMLInputElement).click();
       }
     }
   }
 
-  onDateChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const { name, value } = input;
+  async verifyLicense(): Promise<boolean> {
+    if (!this.user?.drivinglicense) {
+      this.errorMessage = 'Không tìm thấy ảnh bằng lái xe.';
+      return false;
+    }
 
-    if (this.isDisabled(value)) {
-      this.errorMessage = 'Ngày này không khả dụng!';
-      this.formData[name] = '';
-    } else {
-      this.formData[name] = value;
-      this.errorMessage = '';
+    try {
+      const request = {
+        requests: [{
+          image: { source: { imageUri: this.user.drivinglicense } },
+          features: [{ type: 'TEXT_DETECTION', maxResults: 1 }]
+        }]
+      };
+      console.log('Request to Google Vision API:', request);
+
+      const resp = await this.http.post(
+        `https://vision.googleapis.com/v1/images:annotate?key=${this.GOOGLE_VISION_API_KEY}`,
+        request
+      ).toPromise();
+
+      console.log('Response from Google Vision API:', resp);
+
+      const text = (resp as any).responses[0]?.textAnnotations[0]?.description || '';
+      const licenseClass = this.extractLicenseClass(text);
+
+      if (!licenseClass) {
+        this.errorMessage = 'Không thể trích xuất thông tin hạng bằng lái từ ảnh.';
+        return false;
+      }
+      console.log('License Class:', licenseClass);
+
+      const isValidClass = ['B1', 'B2'].includes(licenseClass);
+
+      if (!isValidClass) {
+        this.errorMessage = 'Bằng lái phải thuộc hạng B1 hoặc B2.';
+        return false;
+      }
+
+      const expirationDate = this.extractExpirationDate(text);
+      console.log('Expiration Date:', expirationDate);
+
+      if (!expirationDate) {
+        this.errorMessage = 'Không thể trích xuất thông tin ngày hết hạn bằng lái từ ảnh.';
+        return false;
+      }
+
+      // Chuyển đổi chuỗi ngày thành đối tượng Date bằng native JavaScript
+      const [day, month, year] = expirationDate.split('/');
+      const expirationDateObj = new Date(Number(year), Number(month) - 1, Number(day));
+      console.log('Expiration Date:', expirationDateObj);
+
+      const currentDate = new Date();
+      console.log('Current Date:', currentDate);
+
+      const isValidDate = expirationDateObj > currentDate;
+
+      console.log('Is valid class:', isValidClass);
+      console.log('Is valid date:', isValidDate);
+
+
+      if (!isValidDate) {
+        this.errorMessage = 'Bằng lái đã hết hạn.';
+        return false;
+      }
+
+      return true;
+    } catch (err) {
+      console.error('Lỗi khi xác minh bằng lái:', err);
+      this.errorMessage = 'Có lỗi xảy ra khi kiểm tra bằng lái.';
+      return false;
     }
   }
 
-  onSubmit(): void {
-    // Reset thông báo
+  private extractLicenseClass(text: string): string | null {
+    const match = text.match(/H[a-z]+\/Class:\s*(\w+)/i);
+    return match ? match[1].toUpperCase() : null;
+  }
+
+  private extractExpirationDate(text: string): string | null {
+    const match = text.match(/Có giá trị đến\s*\/?\s*Expires:\s*(\d{2}\/\d{2}\/\d{4})/i);
+    return match ? match[1] : null;
+  }
+
+  async onSubmit(): Promise<void> {
     this.errorMessage = '';
 
-    // Kiểm tra đủ các trường bắt buộc
     if (!this.formData['startdatetime'] || !this.formData['enddatetime']) {
       this.errorMessage = 'Vui lòng chọn ngày giờ nhận và ngày giờ trả xe.';
       return;
     }
 
-    // Kiểm tra ngày giờ bắt đầu không được trong quá khứ
     if (this.isDateTimeInPast(this.formData['startdatetime'])) {
-      this.errorMessage = 'Thời gian nhận xe không được chọn trong quá khứ. Vui lòng chọn thời gian hiện tại hoặc tương lai.';
+      this.errorMessage = 'Thời gian nhận xe không được chọn trong quá khứ.';
       return;
     }
 
-    // Kiểm tra ngày giờ kết thúc không được trong quá khứ
     if (this.isDateTimeInPast(this.formData['enddatetime'])) {
-      this.errorMessage = 'Thời gian trả xe không được chọn trong quá khứ. Vui lòng chọn thời gian hiện tại hoặc tương lai.';
+      this.errorMessage = 'Thời gian trả xe không được chọn trong quá khứ.';
       return;
     }
 
-    // Kiểm tra thời gian kết thúc phải lớn hơn thời gian bắt đầu
     if (this.isEndDateTimeBeforeStartDateTime()) {
-      this.errorMessage = 'Thời gian trả xe phải lớn hơn thời gian nhận xe. Vui lòng chọn lại.';
+      this.errorMessage = 'Thời gian trả xe phải lớn hơn thời gian nhận xe.';
       return;
     }
 
-    // Kiểm tra thời gian thuê tối thiểu (ít nhất 1 giờ)
     const startDate = new Date(this.formData['startdatetime']);
     const endDate = new Date(this.formData['enddatetime']);
     const diffInHours = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60);
-    
+
     if (diffInHours < 1) {
       this.errorMessage = 'Thời gian thuê xe phải ít nhất 1 giờ.';
       return;
     }
+
+    const isLicenseValid = await this.verifyLicense();
+    if (!isLicenseValid) return;
 
     const url = `http://localhost:8080/makeABooking/${this.car.idcar}`;
     const token = localStorage.getItem('authToken');
@@ -340,7 +405,6 @@ export class BookingItemComponent implements OnInit {
     this.router.navigate(['/customer']);
   }
 
-  // Format datetime cho hiển thị
   formatDateTime(dateTimeStr: string): string {
     if (!dateTimeStr) return '';
     const date = new Date(dateTimeStr);
@@ -354,13 +418,8 @@ export class BookingItemComponent implements OnInit {
   }
 
   getFilledWidth(index: number, rating: number): string {
-    if (rating >= index + 1) {
-      return '100%';
-    } else if (rating > index) {
-      const percentage = (rating - index) * 100;
-      return `${percentage}%`;
-    } else {
-      return '0%';
-    }
+    if (rating >= index + 1) return '100%';
+    else if (rating > index) return `${(rating - index) * 100}%`;
+    else return '0%';
   }
 }
